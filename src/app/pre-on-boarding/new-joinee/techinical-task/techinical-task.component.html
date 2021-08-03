@@ -1,0 +1,408 @@
+<div>
+  <mk-alert
+    [callout]="true"
+    backgroundColor="success"
+    *ngIf="techMessageSucess"
+  >
+    <h5>
+      <i class="icon fa fa-check"></i>
+      Techinical details has been added successfully!
+    </h5>
+  </mk-alert>
+</div>
+<div>
+  <mk-alert
+    [callout]="true"
+    backgroundColor="success"
+    *ngIf="techupdateMessageSucess"
+  >
+    <h5>
+      <i class="icon fa fa-check"></i>
+      Techinical details has been updated successfully!
+    </h5>
+  </mk-alert>
+</div>
+<form
+*ngIf="consultantleadTask"
+[formGroup]="joineeConsultantTechinicalDocument"
+name="TechDoc"
+method="post"
+(ngSubmit)="techinicalDocumentSubmit('Consultant'); consultantTechDetails.id ? '' :  TechConsultantDocument.reset();"
+#TechConsultantDocument="ngForm"
+>
+    <div class="row">
+        <div class="col-md-12">
+            <input
+            type="hidden"
+            formControlName="techinicalTaskId"
+            [(ngModel)]="consultantTechDetails.id"
+            class="form-control"
+          />
+            <div class="form-group">
+                <label for="">Client Name:</label>
+                <input
+                type="text"
+                class="form-control"
+                formControlName="clientName"
+                [(ngModel)]="consultantTechDetails.client_name"
+                id=""
+                placeholder="Client Name"
+                />
+                <div
+                *ngIf="clientName.touched && clientName.invalid"
+                class="form-error-text"
+                >
+                <span *ngIf="clientName.errors.required"
+                    >Client Name is required</span
+                >
+                </div>
+            </div>
+            <div class="form-group radioBtn">
+                <label for="">Task Assigned: </label>
+                <td>
+                    <label class=""><input type="radio" name="taskAssigned" formControlName="taskAssigned" [(ngModel)]="consultant_task_assigned_value" (click)="taskAssigned(1)" value="1" > Yes</label>
+                </td>
+                <td>
+                    <label class=""><input type="radio" name="taskAssigned" formControlName="taskAssigned" [(ngModel)]="consultant_task_assigned_value" (click)="taskAssigned(0)" value="0" > No</label>  
+                </td>
+            </div>
+            <div class="form-group" *ngIf="consultantleadTaskAssign">
+                <button
+                  type="button"
+                  [disabled]="joineeConsultantTechinicalDocument.get('task_details').invalid"
+                  class="btn btn-primary addStatus"
+                  (click)="onAddTask()"
+                >
+                  Add
+                </button>
+              </div>
+            <div class="row tb-row" *ngIf="consultantleadTaskAssign">
+                <table class="table table-borderless">
+                  <thead>
+                    <tr>
+                      <th>Task Detail</th>
+                      <th>Task Start Date</th>
+                      <th>Task Completed Date</th>
+                      <th>Task Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <ng-container>
+                    <tbody
+                      formArrayName="task_details"
+                      *ngFor="
+                        let skill of joineeConsultantTechinicalDocument.get('task_details')['controls'];
+                        let i = index ">
+                      <tr [formGroupName]="i">
+                        <td>
+                          <div>
+                            <input
+                              type="hidden"
+                              formControlName="taskDetailId"
+                              class="form-control"
+                            />
+                          </div>
+                          <textarea class="form-control"
+                          formControlName="taskDetails"
+                              placeholder="Task Details"
+                                  rows="4"
+                                  cols=""
+                          ></textarea>
+                        </td>
+                        <td>
+                          <div class="form-group">
+                            <div class="input-group date">
+                              <input
+                                  type="text"
+                                  formControlName="taskStartDate"
+                                  bsDatepicker
+                                  class="form-control pull-right"
+                                  readonly
+                                  #startDate="bsDatepicker"
+                                  [bsConfig]="{
+                                  containerClass: 'theme-dark-blue',
+                                  dateInputFormat: 'YYYY-MM-DD'
+                                  }"
+                              />
+                              <div
+                                  class="input-group-addon"
+                                  (click)="startDate.toggle(); checkStartDate()"
+                                  [attr.aria-expanded]="startDate.isOpen"
+                              >
+                                  <i class="fa fa-calendar"></i>
+                              </div>
+                              </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="input-group date">
+                            <input
+                            type="text"
+                            formControlName="taskCompletedDate"
+                            bsDatepicker
+                            class="form-control pull-right"
+                            readonly
+                            #endDate="bsDatepicker"
+                            [bsConfig]="{
+                            containerClass: 'theme-dark-blue',
+                            dateInputFormat: 'YYYY-MM-DD'
+                            }"
+                        />
+                            <div
+                                class="input-group-addon"
+                                (click)="endDate.toggle()"
+                                [attr.aria-expanded]="endDate.isOpen"
+                                [class.no-click]="taskCompletedDate"
+                            >
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            </div>
+                        </td>
+                        <td>
+                        <ng-select
+                        [searchable]="true"
+                        class="custom"
+                        [clearable]="false"
+                        labelForId="Status"
+                        formControlName="taskStatus"
+                        placeholder="Please select"
+                      >
+                        <ng-option
+                          *ngFor="let taskstatus of status"
+                          [value]="taskstatus.id"
+                        >
+                          {{ taskstatus.status }}
+                        </ng-option>
+                      </ng-select>
+                        </td>
+                        <td class="" *ngIf="i > 0">
+                          <button
+                            (click)="onRemoveConsultantTask(i)"
+                            class="btn btn-danger btn-sm"
+                          >
+                            <i
+                              class="fa fa-close"
+                              style="font-size:20px;"
+                            ></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-container>
+                </table>
+              </div>
+        </div>
+    </div>      
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="form-group">
+            <button
+                type="submit"
+                *ngIf="!consultantTechDetails.id && addTechinicalTaskPermission"
+                class="btn btn-primary submit-button"
+                [disabled]="joineeConsultantTechinicalDocument.get('clientName').invalid || joineeConsultantTechinicalDocument.get('taskAssigned').invalid"
+            >
+                Submit
+            </button>
+            <button
+                type="submit"
+                *ngIf="consultantTechDetails.id && addTechinicalTaskPermission"
+                class="btn btn-primary submit-button"
+                [disabled]="joineeConsultantTechinicalDocument.get('clientName').invalid || joineeConsultantTechinicalDocument.get('taskAssigned').invalid"
+            >
+                Update
+            </button>
+            <button
+                type="button"
+                class="btn btn-danger"
+                (click)="OnCloseJoinee()"
+            >
+                Close
+            </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form
+*ngIf="trainingleadTask"
+[formGroup]="joineeTrainingTechinicalDocument"
+name="TechDoc"
+method="post"
+(ngSubmit)="techinicalDocumentSubmit('Training'); trainingTechDetails.id ? '' :  TechTrainingDocument.reset();"
+#TechTrainingDocument="ngForm"
+>
+    <div class="row">
+    <div class="col-md-12">
+      <input
+        type="hidden"
+        formControlName="techinicalTaskId"
+        [(ngModel)]="trainingTechDetails.id"
+        class="form-control"
+      />
+        <div class="form-group radioBtn">
+        <label for="">Training Assigned: </label>
+        <td>
+            <label class=""><input type="radio" name="taskAssigned" formControlName="taskAssigned" [(ngModel)]="training_task_assigned_value" (click)="taskAssigned(2)" value="1" > Yes</label>
+        </td>
+        <td>
+            <label class=""><input type="radio" name="taskAssigned" formControlName="taskAssigned" [(ngModel)]="training_task_assigned_value" (click)="taskAssigned(3)" value="0" > No</label>  
+        </td>
+        </div>
+        <div class="form-group" *ngIf="trainingleadTaskAssign">
+          <button
+            type="button"
+            [disabled]="joineeTrainingTechinicalDocument.get('task_details').invalid"
+            class="btn btn-primary addStatus"
+            (click)="onAddTraingTask()"
+          >
+            Add
+          </button>
+        </div>
+      <div class="row tb-row"  *ngIf="trainingleadTaskAssign">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>Training Detail</th>
+                <th>Training Start Date</th>
+                <th>Training Completed Date</th>
+                <th>Training Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <ng-container>
+              <tbody
+                formArrayName="task_details"
+                *ngFor="
+                  let skill of joineeTrainingTechinicalDocument.get('task_details')['controls'];
+                  let i = index ">
+                <tr [formGroupName]="i">
+                  <td>
+                    <div>
+                      <input
+                        type="hidden"
+                        formControlName="taskDetailId"
+                        class="form-control"
+                      />
+                    </div>
+                    <textarea class="form-control"
+                    formControlName="taskDetails"
+                        placeholder="Task Details"
+                            rows="4"
+                            cols=""
+                    ></textarea>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <div class="input-group date">
+                        <input
+                            type="text"
+                            formControlName="taskStartDate"
+                            bsDatepicker
+                            class="form-control pull-right"
+                            readonly
+                            #startDate="bsDatepicker"
+                            [bsConfig]="{
+                            containerClass: 'theme-dark-blue',
+                            dateInputFormat: 'YYYY-MM-DD'
+                            }"
+                        />
+                        <div
+                            class="input-group-addon"
+                            (click)="startDate.toggle()"
+                            [attr.aria-expanded]="startDate.isOpen"
+                        >
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="input-group date">
+                      <input
+                          type="text"
+                          formControlName="taskCompletedDate"
+                          bsDatepicker
+                          class="form-control pull-right"
+                          readonly
+                          #endDate="bsDatepicker"
+                          [bsConfig]="{
+                          containerClass: 'theme-dark-blue',
+                          dateInputFormat: 'YYYY-MM-DD'
+                          }"
+                      />
+                      <div
+                          class="input-group-addon"
+                          (click)="endDate.toggle()"
+                          [attr.aria-expanded]="endDate.isOpen"
+                      >
+                          <i class="fa fa-calendar"></i>
+                      </div>
+                      </div>
+                  </td>
+                  <td>
+                  <ng-select
+                  [searchable]="true"
+                  class="custom"
+                  [clearable]="false"
+                  labelForId="Status"
+                  formControlName="taskStatus"
+                  placeholder="Please select"
+                  >
+                    <ng-option
+                      *ngFor="let taskstatus of status"
+                      [value]="taskstatus.id"
+                    >
+                      {{ taskstatus.status }}
+                    </ng-option>
+                  </ng-select>
+                  </td>
+                  <td class="" *ngIf="i > 0">
+                    <button
+                      (click)="onRemoveTraingTask(i)"
+                      class="btn btn-danger btn-sm"
+                    >
+                      <i
+                        class="fa fa-close"
+                        style="font-size:20px;"
+                      ></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </ng-container>
+          </table>
+        </div>
+      </div>
+    </div>      
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="form-group">
+                <button
+                *ngIf="!trainingTechDetails.id && addTechinicalTaskPermission"
+                type="submit"
+                class="btn btn-primary submit-button"
+                [disabled]="joineeTrainingTechinicalDocument.get('taskAssigned').invalid"
+                >
+                Submit
+                </button>
+                <button
+                    type="submit"
+                    *ngIf="trainingTechDetails.id && addTechinicalTaskPermission"
+                    class="btn btn-primary submit-button"
+                    [disabled]="joineeTrainingTechinicalDocument.get('taskAssigned').invalid"
+                >
+                    Update
+                </button>
+                <button
+                type="button"
+                class="btn btn-danger"
+                (click)="OnCloseJoinee()"
+                >
+                Close
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

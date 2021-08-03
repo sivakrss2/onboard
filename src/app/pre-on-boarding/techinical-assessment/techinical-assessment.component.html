@@ -1,0 +1,642 @@
+<mat-vertical-stepper  #stepper> 
+    <mat-step [completed]="false" [stepControl]="personalDetail">
+        <form [formGroup]="personalDetail">
+            <ng-template matStepLabel>Personal Details</ng-template>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group"
+                    [ngClass]="{'has-error': positionAppliedField.errors && positionAppliedField.touched}" >
+                    <label for="positionApplied">Position Applied For:</label>                        
+                    <input type="text" formControlName="positionApplied" 
+                    class="form-control" id="positionApplied"                    
+                    placeholder="Position Applied For">  
+                    <span class="help-block" *ngIf="positionAppliedField.errors && positionAppliedField.touched">
+                        <span *ngIf="positionAppliedField.errors.required">Position Applied is required</span>
+                        <span *ngIf="positionAppliedField.errors.minlength">Position Applied  should contain at least {{ positionAppliedField.errors.minlength.requiredLength}} characters</span>
+                        <span *ngIf="positionAppliedField.errors.maxlength">Please enter no more than {{ positionAppliedField.errors.maxlength.requiredLength }}  characters.</span>
+                    </span>                      
+                    </div>  
+                </div>
+                
+            </div>
+            <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group"
+                          [ngClass]="{'has-error': nameField.errors && nameField.touched}" >
+                            <label for="name">Name:</label>                           
+                            <input type="text" formControlName="name" id="name"
+                            class="form-control"                              
+                           >   
+                           <span class="help-block" *ngIf="nameField.errors && nameField.touched">
+                                <span *ngIf="nameField.errors.required">Nameis required</span>
+                                <span *ngIf="nameField.errors.minlength">Name should contain at least {{ nameField.errors.minlength.requiredLength}} characters</span>
+                                <span *ngIf="nameField.errors.maxlength">Please enter no more than {{ nameField.errors.maxlength.requiredLength }}  characters.</span>
+                            </span>                             
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group"
+                        [ngClass]="{'has-error': qualificationField.errors && qualificationField.touched}" >
+                          <label for="qualification">Qualification:</label>                           
+                          <input type="text" formControlName="qualification"  id="qualification"
+                          class="form-control"                           
+                         >   
+                         <span class="help-block" *ngIf="qualificationField.errors && qualificationField.touched">
+                                <span *ngIf="qualificationField.errors.required">Qualification is required</span>
+                                <span *ngIf="qualificationField.errors.minlength">Qualification  should contain at least {{ qualificationField.errors.minlength.requiredLength}} characters</span>
+                                <span *ngIf="qualificationField.errors.maxlength">Please enter no more than {{ qualificationField.errors.maxlength.requiredLength }}  characters.</span>
+                            </span>                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-sm-3">
+                          <div class="form-group"
+                              [ngClass]="{'has-error': dateField.errors && dateField.touched}" >
+                                <label for="date">Date:</label>                           
+                                <input type="text" readonly bsDatepicker formControlName="date" id="date"
+                                class="form-control"                              
+                               >   
+                               <span class="help-block" *ngIf="dateField.errors && dateField.touched">
+                                    <span *ngIf="dateField.errors.required">Date is required</span>                                    
+                                </span>                          
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group"
+                            [ngClass]="{'has-error': venueField.errors && venueField.touched}" >                            
+                              <label for="venue">Venue:</label>                           
+                              <input type="text" formControlName="venue"  id="venue"
+                              class="form-control"                           
+                             >   
+                             <span class="help-block" *ngIf="venueField.errors && venueField.touched">
+                                    <span *ngIf="venueField.errors.required">Venue is required</span>
+                                    <span *ngIf="venueField.errors.minlength">Venue  should contain at least {{ venueField.errors.minlength.requiredLength}} characters</span>
+                                    <span *ngIf="venueField.errors.maxlength">Venue enter no more than {{ venueField.errors.maxlength.requiredLength }}  characters.</span>
+                                </span>                        
+                          </div>
+                        </div>
+                        <div class="col-sm-5">
+                                <div class="form-group"
+                                [ngClass]="{'has-error': callTimeField.errors && callTimeField.touched}" >                            
+                                <label class="control-label col-sm-3 call-time-label" style="margin-top: 30px" for="pwd">Call Time:</label>
+                                <div class="col-sm-9">                                                           
+                                 <timepicker [formControlName]="'callTime'"></timepicker>
+                                 <span class="help-block" *ngIf="callTimeField.errors && callTimeField.touched">
+                                        <span *ngIf="callTimeField.errors.required">Venue is required</span>
+                                      
+                                    </span>   
+                                    </div>                     
+                              </div>
+                            </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group"
+                        [ngClass]="{'has-error': interviewField.errors && interviewField.touched}" >                            
+                          <label for="venue">Interview:</label>                           
+                          <input type="text" formControlName="interview"  id="interview"
+                          class="form-control"                           
+                         >   
+                         <span class="help-block" *ngIf="interviewField.errors && interviewField.touched">
+                                <span *ngIf="interviewField.errors.required">Interview feild is required</span>
+                            </span>                        
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group"
+                        [ngClass]="{'has-error': personalField.errors && personalField.touched}" >                            
+                          <label for="venue">Personal:</label>                           
+                          <input type="text" formControlName="personal"  id="personal"
+                          class="form-control"                           
+                         >   
+                         <span class="help-block" *ngIf="personalField.errors && personalField.touched">
+                                <span *ngIf="personalField.errors.required">Personal feild is required</span>
+                            </span>                        
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group"
+                        [ngClass]="{'has-error': techinicalField.errors && techinicalField.touched}" >                            
+                          <label for="venue">Techinical:</label>                           
+                          <input type="text" formControlName="techinical"  id="techinical"
+                          class="form-control"                           
+                         >   
+                         <span class="help-block" *ngIf="techinicalField.errors && techinicalField.touched">
+                                <span *ngIf="techinicalField.errors.required">Techinical feild is required</span>
+                            </span>                        
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group"
+                        [ngClass]="{'has-error': machineTestField.errors && machineTestField.touched}" >                            
+                          <label for="venue">Machine Test:</label>                           
+                          <input type="text" formControlName="machine_test"  id="machine_test"
+                          class="form-control"                           
+                         >   
+                         <span class="help-block" *ngIf="machineTestField.errors && machineTestField.touched">
+                                <span *ngIf="machineTestField.errors.required">Machine Test feild is required</span>
+                            </span>                        
+                      </div>
+                    </div>
+              </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group"
+                            [ngClass]="{'has-error': companyField.errors && companyField.touched}" >
+                            <label for="company">Company:</label>                           
+                            <input type="text" formControlName="company" id="company"
+                            class="form-control"                              
+                            >   
+                            <span class="help-block" *ngIf="companyField.errors && companyField.touched">
+                                <span *ngIf="companyField.errors.required">Company is  required</span>
+                                <span *ngIf="companyField.errors.minlength">Company should contain at least {{ nameField.errors.minlength.requiredLength}} characters</span>
+                                <span *ngIf="companyField.errors.maxlength">Please enter no more than {{ nameField.errors.maxlength.requiredLength }}  characters.</span>
+                            </span>                          
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group"
+                        [ngClass]="{'has-error': experienceField.errors && experienceField.touched}" >
+                            <label for="experience">Experience:</label>                           
+                            <input type="text" formControlName="experience"  id="experience"
+                            class="form-control"                           
+                            >   
+                            <span class="help-block" *ngIf="experienceField.errors && experienceField.touched">
+                                <span *ngIf="experienceField.errors.required">Experience is required</span>
+                                <span *ngIf="experienceField.errors.minlength">Experience  should contain at least {{ qualificationField.errors.minlength.requiredLength}} characters</span>                            
+                            </span>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group"
+                                [ngClass]="{'has-error': remarkOfTheCompanyField.errors && remarkOfTheCompanyField.touched}" >
+                                <label for="remarkOfTheCompany">Remark of the company:</label>                           
+                                <input type="text" formControlName="remarkOfTheCompany" id="remarkOfTheCompany"
+                                class="form-control"                              
+                                >   
+                                <span class="help-block" *ngIf="remarkOfTheCompanyField.errors && remarkOfTheCompanyField.touched">
+                                    <span *ngIf="remarkOfTheCompanyField.errors.required">Remark is  required</span>
+                                    <span *ngIf="remarkOfTheCompanyField.errors.minlength">Remark should contain at least {{ nameField.errors.minlength.requiredLength}} characters</span>
+                                    <span *ngIf="remarkOfTheCompanyField.errors.maxlength">Please enter no more than {{ nameField.errors.maxlength.requiredLength }}  characters.</span>
+                                </span>                          
+                            </div>
+                        </div>                        
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">                             
+                        <button mat-button matStepperNext class="but-primary" >Next</button>
+                    </div>                      
+                </div>     
+        </form>
+    </mat-step>
+    <mat-step [completed]="false" [stepControl]="factors">
+        <form [formGroup]="factors">
+        <ng-template matStepLabel>Rating (Tick the appropriate column with respect to the factors)</ng-template>
+        <div class="row tb-row">
+            <div class="col-sm-12">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>FACTORS</th>
+                            <th>Excellent(5)</th>
+                            <th>V Good (4)</th>
+                            <th>Good (3)</th>
+                            <th>Average (2)</th>
+                            <th>B Average (1)</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <td>Education(25)</td>                            
+                            <td><p>80 & Above</p></td>
+                            <td><p>66-80</p></td>
+                            <td><p>56-65</p></td>
+                            <td><p>41-55</p></td>
+                            <td><p>40&Below</p></td>
+                            <td></td>
+                        </tr> -->
+                        <tr>
+                            <td>Marks (10)</td>
+                            <td><p>80 & Above</p><label class="radio-inline"><input type="radio" name="marks" value="10" formControlName="marks" > (10) </label></td>
+                            <td><p>66-80</p><label class="radio-inline"><input type="radio" name="marks" value="8" formControlName="marks" > (8) </label></td>
+                            <td><p>56-65</p><label class="radio-inline"><input type="radio" name="marks" value="6" formControlName="marks" > (6) </label></td>
+                            <td><p>41-55</p><label class="radio-inline"><input type="radio" name="marks" value="4" formControlName="marks" > (4) </label></td>
+                            <td><p>40&Below</p><label class="radio-inline"><input type="radio" name="marks" value="2" formControlName="marks" > (2) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Degree (10)</td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="10" formControlName="degree" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="8" formControlName="degree" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="6" formControlName="degree" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="4" formControlName="degree" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="2" formControlName="degree" > (2) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Professional Certification (5)</td>
+                            <td><label class="radio-inline"><input type="radio" name="professional_certificate" value="5" formControlName="professional_certificate" > (5) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="professional_certificate" value="4" formControlName="professional_certificate" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="professional_certificate" value="3" formControlName="professional_certificate" > (3) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="professional_certificate" value="2" formControlName="professional_certificate" > (2) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="professional_certificate" value="1" formControlName="professional_certificate" > (1) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>Total</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">Communication (15)</td>                                                        
+                        </tr>
+                        <tr>
+                            <td>Fluency (10)</td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="10" formControlName="fluency" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="8" formControlName="fluency" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="6" formControlName="fluency" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="4" formControlName="fluency" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="2" formControlName="fluency" > (2) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Expression (5)</td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="5" formControlName="expression" > (5) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="4" formControlName="expression" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="3" formControlName="expression" > (3) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="2" formControlName="expression" > (2) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="1" formControlName="expression" > (1) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>Total</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6"></td>                                                        
+                        </tr>
+                        <tr>
+                            <td>Work Experience (25)</td>
+                            <td><p>6 yrs above</p><label class="radio-inline"><input type="radio" name="experience" value="25" formControlName="experience" > (25) </label></td>
+                            <td><p>4 - 6 yrs</p><label class="radio-inline"><input type="radio" name="experience" value="20" formControlName="experience" > (20) </label></td>
+                            <td><p>2 - 4 yrs</p><label class="radio-inline"><input type="radio" name="experience" value="15" formControlName="experience" > (15) </label></td>
+                            <td><p>1 - 2 yrs</p><label class="radio-inline"><input type="radio" name="experience" value="10" formControlName="experience" > (10) </label></td>
+                            <td><p>1yr & Below</p><label class="radio-inline"><input type="radio" name="experience" value="5" formControlName="experience" > (5) </label></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>Total</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">General (35)</td>                                                        
+                        </tr>
+                        <tr>
+                            <td>Appearence (5)</td>
+                            <td><label class="radio-inline"><input type="radio" name="appearence" value="5" formControlName="appearence" > (5) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="appearence" value="4" formControlName="appearence" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="appearence" value="3" formControlName="appearence" > (3) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="appearence" value="2" formControlName="appearence" > (2) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="appearence" value="1" formControlName="appearence" > (1) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Logical Ability (10)</td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="10" formControlName="logical" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="8" formControlName="logical" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="6" formControlName="logical" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="4" formControlName="logical" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="2" formControlName="logical" > (2) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Explanation of Responsibilities (20)</td>
+                            <td><label class="radio-inline"><input type="radio" name="responsibilities" value="20" formControlName="responsibilities" > (20) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="responsibilities" value="16" formControlName="responsibilities" > (16) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="responsibilities" value="12" formControlName="responsibilities" > (12) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="responsibilities" value="8" formControlName="responsibilities" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="responsibilities" value="4" formControlName="responsibilities" > (4) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>Total</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                    <thead>
+                        <tr>
+                            <th>Assessment Summary</th>                                                        
+                        </tr>
+                        <tr>
+                            <th colspan="5">HR Interview</th> 
+                            <!-- <th rowspan="2">Marketing Interview</th>
+                            <th>Mock call</th>                                                       
+                            <th>Total</th>                                                        -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Education</th>
+                            <th>Communication</th>
+                            <th>Experience</th>
+                            <th>General</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr>
+                            <td>(Education Total)</td>
+                            <td>(Communication Total)</td>
+                            <td>(Experience Total)</td>
+                            <td>(General Total)</td>
+                            <td>(Total Total)</td>
+                        </tr>
+                        <tr>
+                            <th>Techinical Interview</th>
+                            <th>Machine Test</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr>
+                            <td>(Techinical Interview)</td>
+                            <td>(Machine Test Total)</td>
+                            <td>(Total Total)</td>
+                        </tr>
+                        <tr>
+                            <th>RESULT</th>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="Selected" formControlName="result" > Selected </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="Short Listed" formControlName="result" > Short Listed </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="Pending" formControlName="result" > Pending </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="Rejected" formControlName="result" > Rejected </label></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row tb-row">
+                <div class="col-sm-12">    
+                    <button mat-button matStepperPrevious class="but-primary">Back</button>                         
+                    <button mat-button matStepperNext class="but-primary" >Next</button>
+                </div>                      
+            </div>  
+        </form>
+    </mat-step>
+    <mat-step [completed]="false" [stepControl]="interview">
+        <form [formGroup]="interview">
+        <ng-template matStepLabel>Techinical Interview Rating (Tick the appropriate column with respect to the factors)</ng-template>
+        <div class="row tb-row">
+            <div class="col-sm-12">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>FACTORS</th>
+                            <th>Excellent (5)</th>
+                            <th>V.Good (4)</th>
+                            <th>Good (3)</th>
+                            <th>Average (2)</th>
+                            <th>B.Average (1)</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Relevant Techinical Experience</th>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_exp" value="10" formControlName="techinical_exp" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_exp" value="8" formControlName="techinical_exp" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_exp" value="6" formControlName="techinical_exp" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_exp" value="4" formControlName="techinical_exp" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_exp" value="2" formControlName="techinical_exp" > (2) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Communication</th>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_communication" value="5" formControlName="techinical_communication" > (5) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_communication" value="4" formControlName="techinical_communication" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_communication" value="3" formControlName="techinical_communication" > (3) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_communication" value="2" formControlName="techinical_communication" > (2) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="techinical_communication" value="1" formControlName="techinical_communication" > (1) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Project Explanation</th>
+                            <td><label class="radio-inline"><input type="radio" name="Project_explination" value="10" formControlName="Project_explination" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="Project_explination" value="8" formControlName="Project_explination" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="Project_explination" value="6" formControlName="Project_explination" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="Project_explination" value="4" formControlName="Project_explination" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="Project_explination" value="2" formControlName="Project_explination" > (2) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Logical Ablity</th>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="15" formControlName="logical" > (15) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="12" formControlName="logical" > (12) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="9" formControlName="logical" > (9) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="6" formControlName="logical" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logical" value="3" formControlName="logical" > (3) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Domain Knowledge</th>
+                            <td><label class="radio-inline"><input type="radio" name="domain_knowledge" value="5" formControlName="domain_knowledge" > (5) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="domain_knowledge" value="4" formControlName="domain_knowledge" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="domain_knowledge" value="3" formControlName="domain_knowledge" > (3) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="domain_knowledge" value="2" formControlName="domain_knowledge" > (2) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="domain_knowledge" value="1" formControlName="domain_knowledge" > (1) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Technology & Knowledge</th>
+                            <td><label class="radio-inline"><input type="radio" name="technology_knowledge" value="20" formControlName="technology_knowledge" > (20) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="technology_knowledge" value="16" formControlName="technology_knowledge" > (16) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="technology_knowledge" value="12" formControlName="technology_knowledge" > (12) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="technology_knowledge" value="8" formControlName="technology_knowledge" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="technology_knowledge" value="4" formControlName="technology_knowledge" > (4) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Additional Techinical Kowledge</th>
+                            <td><label class="radio-inline"><input type="radio" name="additiona_technology_knowledge" value="5" formControlName="additiona_technology_knowledge" > (5) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="additiona_technology_knowledge" value="4" formControlName="additiona_technology_knowledge" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="additiona_technology_knowledge" value="3" formControlName="additiona_technology_knowledge" > (3) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="additiona_technology_knowledge" value="2" formControlName="additiona_technology_knowledge" > (2) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="additiona_technology_knowledge" value="1" formControlName="additiona_technology_knowledge" > (1) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Database(PL/SQL)</th>
+                            <td><label class="radio-inline"><input type="radio" name="database" value="15" formControlName="database" > (15) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="database" value="12" formControlName="database" > (12) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="database" value="9" formControlName="database" > (9) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="database" value="6" formControlName="database" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="database" value="3" formControlName="database" > (3) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>User Interface (UI)</th>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="10" formControlName="ui" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="8" formControlName="ui" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="6" formControlName="ui" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="4" formControlName="ui" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="2" formControlName="ui" > (2) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Source Control Knowledge</th>
+                            <td><label class="radio-inline"><input type="radio" name="source_control" value="5" formControlName="source_control" > (5) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="source_control" value="4" formControlName="source_control" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="source_control" value="3" formControlName="source_control" > (3) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="source_control" value="2" formControlName="source_control" > (2) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="source_control" value="1" formControlName="source_control" > (1) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>RESULT</th>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="Selected" formControlName="result" > Selected </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="On Hold" formControlName="result" > On Hold </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="Rejected" formControlName="result" > Rejected </label></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>REMARKS</th>
+                        </tr>
+                        <tr>
+                            <td colspan="6"><textarea type="text" id="textarea" class="form-control"></textarea></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row tb-row">
+                <div class="col-sm-12"> 
+                    <button mat-button matStepperPrevious class="but-primary">Back</button>                            
+                    <button mat-button matStepperNext class="but-primary" >Next</button>
+                </div>                      
+            </div>  
+        </form>
+    </mat-step>
+    <mat-step [completed]="false" [stepControl]="machine_test">
+        <form [formGroup]="machine_test">
+        <ng-template matStepLabel>Machine Test Session Rating (Tick the appropriate column with respect to the factors)</ng-template>
+        <div class="row tb-row">
+            <div class="col-sm-12">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>FACTORS</th>
+                            <th>Excellent (5)</th>
+                            <th>V.Good (4)</th>
+                            <th>Good (3)</th>
+                            <th>Average (2)</th>
+                            <th>B.Average (1)</th>
+                            <th>Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Requiement Understanding</th>
+                            <td><label class="radio-inline"><input type="radio" name="understanding" value="10" formControlName="understanding" > (1) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="understanding" value="8" formControlName="understanding" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="understanding" value="6" formControlName="understanding" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="understanding" value="4" formControlName="understanding" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="understanding" value="2" formControlName="understanding" > (2) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Error Free</th>
+                            <td><label class="radio-inline"><input type="radio" name="error_free" value="20" formControlName="error_free" > (20) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="error_free" value="16" formControlName="error_free" > (16) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="error_free" value="12" formControlName="error_free" > (12) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="error_free" value="8" formControlName="error_free" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="error_free" value="4" formControlName="error_free" > (4) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Code Comments</th>
+                            <td><label class="radio-inline"><input type="radio" name="code_comments" value="10" formControlName="code_comments" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="code_comments" value="8" formControlName="code_comments" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="code_comments" value="6" formControlName="code_comments" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="code_comments" value="4" formControlName="code_comments" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="code_comments" value="2" formControlName="code_comments" > (2) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>User Interface</th>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="15" formControlName="ui" > (15) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="12" formControlName="ui" > (12) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="9" formControlName="ui" > (9) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="6" formControlName="ui" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="ui" value="3" formControlName="ui" > (3) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Code Quality / Standards</th>
+                            <td><label class="radio-inline"><input type="radio" name="code_quality" value="15" formControlName="code_quality" > (15) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="code_quality" value="12" formControlName="code_quality" > (12) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="code_quality" value="9" formControlName="code_quality" > (9) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="code_quality" value="6" formControlName="code_quality" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="code_quality" value="3" formControlName="code_quality" > (3) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Logics</th>
+                            <td><label class="radio-inline"><input type="radio" name="logics" value="20" formControlName="logics" > (20) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logics" value="16" formControlName="logics" > (16) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logics" value="12" formControlName="logics" > (12) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logics" value="8" formControlName="logics" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="logics" value="4" formControlName="logics" > (4) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Data Access & Database</th>
+                            <td><label class="radio-inline"><input type="radio" name="data_acces" value="10" formControlName="data_acces" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="data_acces" value="8" formControlName="data_acces" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="data_acces" value="6" formControlName="data_acces" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="data_acces" value="4" formControlName="data_acces" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="data_acces" value="2" formControlName="data_acces" > (2) </label></td>
+                            <th>(Total)</th>
+                        </tr>
+                        <tr>
+                            <th>Task Completed</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total</th>
+                        </tr>
+                        <tr>
+                            <td>(Task Completed)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>(Total)</td>
+                        </tr>
+                        <tr>
+                            <th>RESULT</th>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="Selected" formControlName="result" > Selected </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="result" value="On Hold" formControlName="result" > On Hold </label></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>REMARKS</th>
+                        </tr>
+                        <tr>
+                            <td colspan="6"><textarea type="text" id="textarea" class="form-control"></textarea></td>
+                            <td></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row tb-row">
+            <button class="but-primary" mat-button matStepperPrevious>Back</button>
+            <button class="but-primary" mat-button >Save</button>
+            <button type="submit" (click)="onSubmit()" class="but-primary" mat-button >Submit</button>
+        </div>  
+        </form>
+    </mat-step>
+</mat-vertical-stepper>

@@ -1,0 +1,27 @@
+<mk-box [isRemovable]="false" [isCollapsable]="false" >
+    <mk-box-header>Upcomming Joinee List</mk-box-header>
+    <mk-box-content>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover table-bordered">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>DOJ</th>
+          <th>Department</th>
+          <th>Designation</th>
+          <th>Recruiter</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of values" >
+            <td>{{data.name | titlecase}}</td>
+            <td>{{data.email}}</td>
+            <td>{{data.date_of_join}}</td>
+            <td>{{data.department | titlecase}}</td>
+            <td>{{data.designation_name | titlecase}}</td>
+            <td>{{data.recruiter_name | titlecase}}</td>  
+          </tr>
+        </tbody>
+      </table>
+    </mk-box-content>
+  </mk-box>

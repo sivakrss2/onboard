@@ -1,0 +1,734 @@
+<div class="row padd-20">
+    <!-- <div class="col-md-12"> -->
+      <form
+        [formGroup]="synergyDetails"
+        name="synergyDetailsForm"
+        method="post"
+        (ngSubmit)="synergyDetailsSubmit()"
+        #synergy="ngForm"
+      >
+      <div class="col-md-12">
+        <div class="col-md-6">
+          <div class="form-border">
+              <h3>Company Details</h3>
+              <div class="form-group">
+                  <label for="CompanyName"><span>*</span> Company Name</label>
+                  <ng-select
+                  [searchable]="true"
+                  class="custom"
+                  [clearable]="false"
+                  labelForId="companyName"
+                  formControlName="companyName"
+                  >
+                  <ng-option
+                      *ngFor="let companyName of companyNames"
+                      [value]="companyName.id"
+                  >
+                      {{ companyName.name }}
+                  </ng-option>
+                  </ng-select>
+                  <div
+                  *ngIf="
+                      synergyCompany.touched && synergyCompany.invalid
+                  "
+                  class="form-error-text"
+                  >
+                  <span *ngIf="synergyCompany.errors.required"
+                      >Please select a company</span
+                  >
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="department"><span>*</span> Department</label>
+                  <ng-select
+                  [searchable]="true"
+                  class="custom"
+                  [clearable]="false"
+                  labelForId="synergyDepartment"
+                  formControlName="departmentId"
+                  >
+                  <ng-option
+                      *ngFor="let department of departments"
+                      [value]="department.id"
+                  >
+                      {{ department.department }}
+                  </ng-option>
+                  </ng-select>
+                  <div
+                  *ngIf="
+                      synergyDepartment.touched && synergyDepartment.invalid
+                  "
+                  class="form-error-text"
+                  >
+                  <span *ngIf="synergyDepartment.errors.required"
+                      >Please select a department</span
+                  >
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label for="designation"><span>*</span> Designation</label>
+                  <ng-select
+                  [searchable]="true"
+                  class="custom"
+                  [clearable]="false"
+                  formControlName="designationId"
+                  >
+                  <ng-option
+                      *ngFor="let designation of designations"
+                      [value]="designation.id"
+                  >
+                      {{ designation.designation }}
+                  </ng-option>
+                  </ng-select>
+                  <div
+                  *ngIf="
+                      synergyDesignation.touched && synergyDesignation.invalid
+                  "
+                  class="form-error-text"
+                  >
+                  <span *ngIf="synergyDesignation.errors.required"
+                      >Please select a designation</span
+                  >
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-border">
+            <h3>Employee Name</h3>
+            <div class="form-group">
+                <label for="">Employee Number</label>
+                <input
+                type="text"
+                formControlName="employeeNumber"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for=""><span>*</span> First Name</label>
+                <input
+                type="text"
+                formControlName="firstName"
+                class="form-control"
+                />
+                <div
+                *ngIf="synergyEmployeeFirstName.touched && synergyEmployeeFirstName.invalid"
+                class="form-error-text"
+                >
+                <span *ngIf="synergyEmployeeFirstName.errors.required"
+                    >The Employee First name is required</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for=""><span>*</span> Last Name</label>
+                <input
+                type="text"
+                formControlName="lastName"
+                class="form-control"
+                />
+                <div
+                *ngIf="synergyEmployeeLastName.touched && synergyEmployeeLastName.invalid"
+                class="form-error-text"
+                >
+                <span *ngIf="synergyEmployeeLastName.errors.required"
+                    >The Employee Last name is required</span>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-6">
+          <div class="form-border">
+            <h3>Current Contact Details</h3>
+            <div class="form-group">
+                <label for=""><span>*</span> Display Name</label>
+                <input
+                type="text"
+                formControlName="displayName"
+                class="form-control"
+                />
+                <div
+                *ngIf="synergydisplayName.touched && synergydisplayName.invalid"
+                class="form-error-text"
+                >
+                <span *ngIf="synergydisplayName.errors.required"
+                    >The Display name is required</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Current Address1</label>
+                <input
+                type="text"
+                formControlName="currentAddress1"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Current Address2</label>
+                <input
+                type="text"
+                formControlName="currentAddress2"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Current Address3</label>
+                <input
+                type="text"
+                formControlName="currentAddress3"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Current City</label>
+                <input
+                type="text"
+                formControlName="currentCity"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Current State</label>
+                <input
+                type="text"
+                formControlName="currentState"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Current Country</label>
+                <input
+                type="text"
+                formControlName="currentCountry"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Current Pincode</label>
+                <input
+                type="text"
+                formControlName="currentPincode"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Current Phoneno</label>
+                <input
+                type="text"
+                formControlName="currentPhoneno"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Mobile Number</label>
+                <input
+                type="text"
+                formControlName="mobileNumber"
+                class="form-control"
+                />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-border">
+            <h3>Permanent Contact Details</h3>
+            <div class="form-group same-address">
+            <strong> Same as current Address </strong>
+            <input
+            type="checkbox"
+            name="sameAsCurrentAddress"
+            value="1"
+            formControlName="sameAsCurrentAddress" [(ngModel)]="isChecked" (change)="checkValue($event)"
+            />
+            </div>
+            <div class="form-group">
+                <label for="">Permanent Address1</label>
+                <input
+                type="text"
+                formControlName="permanentAddress1"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Permanent Address2</label>
+                <input
+                type="text"
+                formControlName="permanentAddress2"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Permanent Address3</label>
+                <input
+                type="text"
+                formControlName="permanentAddress3"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Permanent City</label>
+                <input
+                type="text"
+                formControlName="permanentCity"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Permanent State</label>
+                <input
+                type="text"
+                formControlName="permanentState"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Permanent Country</label>
+                <input
+                type="text"
+                formControlName="permanentCountry"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Permanent Pincode</label>
+                <input
+                type="text"
+                formControlName="permanentPincode"
+                class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label for="">Permanent Phoneno</label>
+                <input
+                type="text"
+                formControlName="permanentPhoneno"
+                class="form-control"
+                />
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-border">
+                <h3>Personal Details</h3>
+                <div class="form-group">
+                    <label for="">Father Name</label>
+                    <input
+                    type="text"
+                    formControlName="fatherName"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">DOB</label>
+                    <div class="input-group date">
+                    <input
+                        type="text"
+                        bsDatepicker
+                        formControlName="dob"
+                        class="form-control pull-right"
+                        readonly
+                        #dob="bsDatepicker"
+                        [bsConfig]="{
+                        containerClass: 'theme-dark-blue',
+                        dateInputFormat: 'YYYY-MM-DD'
+                        }"
+                    />
+                    <div
+                        class="input-group-addon"
+                        (click)="dob.toggle()"
+                        [attr.aria-expanded]="dob.isOpen"
+                    >
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for=""><span>*</span> DOJ</label>
+                    <div class="input-group date">
+                    <input
+                        type="text"
+                        formControlName="doj"
+                        bsDatepicker
+                        class="form-control pull-right"
+                        readonly
+                        #doj="bsDatepicker"
+                        [bsConfig]="{
+                        containerClass: 'theme-dark-blue',
+                        dateInputFormat: 'YYYY-MM-DD'
+                        }"
+                    />
+                    <div
+                        class="input-group-addon"
+                        (click)="doj.toggle()"
+                        [attr.aria-expanded]="doj.isOpen"
+                    >
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    </div>
+                    <div
+                    *ngIf="dateOfJoining.touched && dateOfJoining.invalid"
+                    class="form-error-text"
+                    >
+                    <span *ngIf="dateOfJoining.errors.required"
+                        >Date of joining is required</span
+                    >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Corporate E-Mailid</label>
+                    <input
+                      type="email"
+                      formControlName="emailId"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Employee IM</label>
+                    <input
+                    type="text"
+                    formControlName="emloyeeIm"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Login User Name</label>
+                    <input
+                    type="text"
+                    formControlName="loginUserName"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Login Password</label>
+                    <input
+                    type="text"
+                    formControlName="loginPassword"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="BloodGroup">Blood Groupid</label>
+                    <ng-select
+                    [searchable]="true"
+                    class="custom"
+                    [clearable]="false"
+                    labelForId="bloodGroup"
+                    formControlName="bloodGroupId"
+                    >
+                    <ng-option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                    >
+                        {{ department.department }}
+                    </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group">
+                    <label for="">PAN Number</label>
+                    <input
+                    type="text"
+                    formControlName="panNumber"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">PF Number</label>
+                    <input
+                    type="text"
+                    formControlName="pfNumber"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">ESI Number</label>
+                    <input
+                    type="text"
+                    formControlName="esiNumber"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Bank Name</label>
+                    <input
+                    type="text"
+                    formControlName="bankName"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Marital Status</label>
+                    <input
+                    type="text"
+                    formControlName="maritalStatus"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Bank Accountno</label>
+                    <input
+                    type="text"
+                    formControlName="bankAccountNo"
+                    class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="PrimarySkill">Primary Skill</label>
+                    <ng-select
+                    [searchable]="true"
+                    class="custom"
+                    [clearable]="false"
+                    labelForId="primarySkill"
+                    formControlName="primarySkill"
+                    >
+                    <ng-option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                    >
+                        {{ department.department }}
+                    </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group">
+                    <label for="">Personal Mail Id</label>
+                    <input
+                      type="email"
+                      formControlName="personalMailId"
+                      class="form-control"
+                    />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-border">
+                <h3>Previoue Employee Details</h3>
+                <div class="form-group">
+                    <label for="">Previous Employee</label>
+                    <input
+                      type="text"
+                      formControlName="previouEmployee"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Previous Experience Year</label>
+                    <input
+                      type="text"
+                      formControlName="previouExperienceYear"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Previous Experience Months</label>
+                    <input
+                      type="text"
+                      formControlName="previouExperienceMonths"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Reference1 Remarks</label>
+                    <input
+                      type="text"
+                      formControlName="reference1Remarks"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Reference2 Remarks</label>
+                    <input
+                      type="text"
+                      formControlName="reference2Remarks"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Document Extension</label>
+                    <input
+                      type="text"
+                      formControlName="documentExtension"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Photo Extension</label>
+                    <input
+                      type="text"
+                      formControlName="photoExtension"
+                      class="form-control"
+                    />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-border">
+                <h3>Other Details</h3>
+                <div class="form-group">
+                  <label for="">Date of Leaving</label>
+                  <div class="input-group date">
+                  <input
+                      type="text"
+                      bsDatepicker
+                      formControlName="dateOfLeaving"
+                      class="form-control pull-right"
+                      readonly
+                      #dateOfLeaving="bsDatepicker"
+                      [bsConfig]="{
+                      containerClass: 'theme-dark-blue',
+                      dateInputFormat: 'YYYY-MM-DD'
+                      }"
+                  />
+                  <div
+                      class="input-group-addon"
+                      (click)="dateOfLeaving.toggle()"
+                      [attr.aria-expanded]="dateOfLeaving.isOpen"
+                  >
+                      <i class="fa fa-calendar"></i>
+                  </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="">Reason For Leaving</label>
+                    <input
+                      type="text"
+                      formControlName="reasonForLeaving"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="">Swipe Card No</label>
+                    <input
+                      type="text"
+                      formControlName="swipCardNo"
+                      class="form-control"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="Location">Location</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="location"
+                      formControlName="location"
+                    >
+                      <ng-option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                      >
+                        {{ department.department }}
+                      </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group radioBtn">
+                    <label for="">Group</label>
+                    <td>
+                      <label
+                        ><input
+                          type="radio"
+                          name="group"
+                          value="1"
+                          formControlName="group"
+                        />
+                        Group1
+                      </label>
+                    </td>
+                    <td>
+                      <label
+                        ><input
+                          type="radio"
+                          name="group"
+                          value="0"
+                          formControlName="group"
+                        />
+                        Group2
+                      </label>
+                    </td>
+                </div>
+                <div class="form-group">
+                    <label for="ShiftTiming">Shift Timing</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="shiftTiming"
+                      formControlName="shiftTiming"
+                    >
+                      <ng-option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                      >
+                        {{ department.department }}
+                      </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group">
+                    <label for="Pseduo">Pseduo</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="pseduo"
+                      formControlName="pseduo"
+                    >
+                      <ng-option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                      >
+                        {{ department.department }}
+                      </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group">
+                    <label for="currentTechlogy">Current Technoloy</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="currentTechnology"
+                      formControlName="currentTechnology"
+                    >
+                      <ng-option
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                      >
+                        {{ department.department }}
+                      </ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group">
+                    <strong> Isactive </strong>
+                    <input
+                    type="checkbox"
+                    name="isActive"
+                    value="1"
+                    formControlName="isActive"
+                    />
+                    <strong> Night Shift </strong>
+                    <input
+                    type="checkbox"
+                    name="nightShift"
+                    value="1"
+                    formControlName="nightShift"
+                    />
+                </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="col-md-12 text-center joinee_submit">
+          <div class="form-group">
+            <button
+              type="submit"
+              class="btn btn-primary submit-button"
+              [disabled]="!synergy.form.valid"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    <!-- </div> -->
+  </div>

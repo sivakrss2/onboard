@@ -1,0 +1,119 @@
+<div>
+  <mk-alert
+    [callout]="true"
+    backgroundColor="success"
+    *ngIf="addSucessMessage"
+  >
+    <h5>
+      <i class="icon fa fa-check"></i>
+      A New Role permission has been created successfully!
+    </h5>
+  </mk-alert>
+</div>
+<div>
+  <mk-alert
+    [callout]="true"
+    backgroundColor="success"
+    *ngIf="updateSucessMessage"
+  >
+    <h5>
+      <i class="icon fa fa-check"></i>
+      Role permission has been updated successfully!
+    </h5>
+  </mk-alert>
+</div>
+<section class="content admin-content-wrapper">
+    <div class="card card-default color-palette-bo">
+        <div class="card-header">
+            <div class="d-inline-block">
+                <h3 class="card-title"> <i class="fa fa-plus"></i>
+              &nbsp; Add New Role </h3>
+            </div>
+             <div class="d-inline-block float-right">
+                <a href="#" onclick="window.history.go(-1); return false;" class="btn btn-primary pull-right"><i class="fa fa-reply mr5"></i> Back</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="box">
+                  <!-- form start -->
+                  <div class="box-body">
+                      <form [formGroup]="newRole" (ngSubmit)="onSubmit(); roleId ? '' : newRoleForm.reset()"  #newRoleForm="ngForm">
+                            <div class="row">
+                              <div class="col-sm-5">
+                                <input
+                                    type="hidden"
+                                    formControlName="role_id"
+                                    [(ngModel)]="roleId"
+                                    class="form-control"
+                                  />
+                                <div class="form-group">
+                                  <input
+                                    type="text"
+                                    formControlName="role_name"
+                                    [(ngModel)]="roleIdName"
+                                    class="form-control"
+                                  />
+                                </div>
+                                <div
+                                *ngIf="roleName.touched && roleName.invalid"
+                                class="form-error-text">
+                                  <span *ngIf="roleName.errors.required"
+                                    >roleName is required</span
+                                  >
+                                </div>
+                              </div>
+                              <div class="col-sm-5">
+                                <div class="form-group">
+                                  <ng-multiselect-dropdown
+                                  [placeholder]="'permissions'"
+                                  [data]="dropdownList" 
+                                  formControlName="permission_id"
+                                  [settings]="dropdownSettings"
+                                  (onSelect)="onItemSelect($event)"
+                                  (onSelectAll)="onSelectAll($event)"
+                                  [(ngModel)]="selectedItem"
+                                  >
+                                  </ng-multiselect-dropdown>
+                                </div>
+                                <div
+                                  *ngIf="permission.touched && permission.invalid"
+                                  class="form-error-text"
+                                >
+                                  <span *ngIf="permission.errors.required"
+                                    >permission is required</span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for=""></label>
+                              <button
+                              type="submit"
+                              *ngIf="!roleId"
+                              [disabled]="!newRoleForm.form.valid"
+                              class="btn btn-primary submit-button"
+                            >
+                              Submit
+                            </button>
+                            <button
+                              type="submit"
+                              *ngIf="roleId"
+                              [disabled]="!newRoleForm.form.valid"
+                              class="btn btn-primary submit-button"
+                            >
+                              Update
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                        </form>
+                  </div>
+          </div>
+      </div>
+  </div></div>
+    </div>
+</section>

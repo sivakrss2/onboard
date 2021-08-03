@@ -1,0 +1,143 @@
+<div>
+  <mk-alert
+    [callout]="true"
+    backgroundColor="success"
+    *ngIf="addSucessMessage"
+  >
+    <h5>
+      <i class="icon fa fa-check"></i>
+      User Role has been added successfully!
+    </h5>
+  </mk-alert>
+</div>
+<div>
+  <mk-alert
+    [callout]="true"
+    backgroundColor="success"
+    *ngIf="updateSucessMessage"
+  >
+    <h5>
+      <i class="icon fa fa-check"></i>
+      User Role has been updated successfully!
+    </h5>
+  </mk-alert>
+</div>
+<section class="content">
+    <div class="card card-default color-palette-bo">
+        <div class="card-header">
+            <div class="d-inline-block">
+                <h3 class="card-title"> <i class="fa fa-plus"></i>
+              &nbsp; Add New User Role </h3>
+            </div>
+             <div class="d-inline-block float-right">
+                <a href="#" onclick="window.history.go(-1); return false;" class="btn btn-primary pull-right"><i class="fa fa-reply mr5"></i> Back</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="box">
+                  <!-- form start -->
+                  <div class="box-body">
+                      <form [formGroup]="newUser" (ngSubmit)="onSubmit();particularUser.id ? '' : newUserForm.reset()" #newUserForm="ngForm">
+                            <div class="row">
+                              <div class="col-sm-5">
+                                <div>
+                                  <input
+                                  type="hidden"
+                                  formControlName="id"
+                                  [(ngModel)]="particularUser.id"
+                                  class="form-control"
+                                />
+                              </div>
+                                <div class="form-group">
+                                  <input
+                                  *ngIf="showUserNameText"
+                                  formControlName="user_id"
+                                  [(ngModel)]="particularUser.user_name"
+                                  type="text"
+                                  readonly
+                                  class="form-control"
+                                />
+                                  <ng-select
+                                  *ngIf="showUserDropDown"
+                                    [searchable]="true"
+                                    [placeholder]="'User Name'"
+                                    class="custom"
+                                    [clearable]="false"
+                                    labelForId="userName"
+                                    formControlName="user_id"
+                                  >
+                                    <ng-option
+                                      *ngFor="let user of users"
+                                      [value]="user.id"
+                                    >
+                                      {{ user.full_name }}
+                                    </ng-option>
+                                  </ng-select>
+                                </div>
+                                <div
+                                *ngIf="userName.touched && userName.invalid"
+                                class="form-error-text">
+                                  <span *ngIf="userName.errors.required"
+                                    >UserName is required</span
+                                  >
+                                </div>
+                              </div>
+                              <div class="col-sm-5">
+                                <div class="form-group">
+                                    <ng-select
+                                    [searchable]="true"
+                                    [placeholder]="'User Role'"
+                                    class="custom"
+                                    [clearable]="false"
+                                    labelForId="role"
+                                    formControlName="role_id"
+                                  >
+                                    <ng-option
+                                      *ngFor="let role of roles"
+                                      [value]="role.id"
+                                    >
+                                      {{ role.name }}
+                                    </ng-option>
+                                  </ng-select>
+                                </div>
+                                <div
+                                  *ngIf="role.touched && role.invalid"
+                                  class="form-error-text"
+                                >
+                                  <span *ngIf="role.errors.required"
+                                    >User Role is required</span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+
+                          <div class="col-md-6 text-center">
+                            <div class="form-group">
+                              <label for=""></label>
+                              <button
+                                *ngIf="updateBtn"
+                                type="submit"
+                                [disabled]="!newUserForm.form.valid"
+                                class="btn btn-primary submit-button"
+                              >
+                                Update
+                              </button>
+                              <button
+                              *ngIf="!updateBtn"
+                              type="submit"
+                              [disabled]="!newUserForm.form.valid"
+                              class="btn btn-primary submit-button"
+                            >
+                              Submit
+                            </button>
+                            </div>
+                          </div>
+                        </form>
+                  </div>
+          </div>
+      </div>
+  </div></div>
+    </div>
+</section>

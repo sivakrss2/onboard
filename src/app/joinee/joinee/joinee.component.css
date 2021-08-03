@@ -1,0 +1,39 @@
+body{
+    color: #333;
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;  
+      
+}
+.joinee-screen-wrapper {
+
+}
+.joineecreen-logo {
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 300;
+}
+.joineecreen-logo a {
+    color: #444;
+}
+.table {
+    border-collapse: unset !important;
+}
+.table-borderless td,
+.table-borderless th, .table-borderless tr {
+  border: none !important;
+}
+.year-column {
+    max-width: 95px;
+}
+.s-no {
+    max-width: 35px;  
+}
+.td-align-middle {
+    vertical-align:middle
+  }
+.month-year {
+    max-width: 130px;  
+}
+.call-time-label {
+    margin-top: 30px;
+}

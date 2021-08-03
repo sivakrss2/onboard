@@ -1,0 +1,2160 @@
+<mk-box [isRemovable]="false" [isCollapsable]="false">
+  <mk-box-header>New Joinee</mk-box-header>
+  <mk-box-content>
+    <div>
+      <mk-alert
+        [callout]="true"
+        backgroundColor="success"
+        *ngIf="addMessageSucess"
+      >
+        <h5>
+          <i class="icon fa fa-check"></i>
+          Candidate details has been added successfully!
+        </h5>
+      </mk-alert>
+    </div>
+    <div>
+      <mk-alert
+        [callout]="true"
+        backgroundColor="danger"
+        *ngIf="resumeMessageError"
+      >
+        <h5>
+          <i class="icon fa fa-check"></i>
+          The resume must be a file of type: docx, docs, pdf.
+        </h5>
+      </mk-alert>
+    </div>
+    <div>
+      <mk-alert
+        [callout]="true"
+        backgroundColor="danger"
+        *ngIf="addMessageError"
+      >
+        <h5>
+          <i class="icon fa fa-check"></i>
+          Email id already taken!
+        </h5>
+      </mk-alert>
+    </div>
+    <div>
+      <mk-alert
+        [callout]="true"
+        backgroundColor="success"
+        *ngIf="updateMessageSucess"
+      >
+        <h5>
+          <i class="icon fa fa-check"></i>
+          Candidate details have been updated successfully!
+        </h5>
+      </mk-alert>
+    </div>
+    <div>
+      <mk-alert
+        [callout]="true"
+        backgroundColor="danger"
+        *ngIf="deleteTechDetailMessage"
+      >
+        <h5>
+          <i class="icon fa fa-check"></i>
+          Technical Detail has been deleted!
+        </h5>
+      </mk-alert>
+    </div>
+    <div>
+      <mk-alert
+        [callout]="true"
+        backgroundColor="danger"
+        *ngIf="deleteParticularDocumentMessage"
+      >
+        <h5>
+          <i class="icon fa fa-check"></i>
+          Joinee Document File has been deleted!
+        </h5>
+      </mk-alert>
+    </div>
+    <div>
+      <mk-alert
+        [callout]="true"
+        backgroundColor="danger"
+        *ngIf="deleteAllDocumentMessage"
+      >
+        <h5>
+          <i class="icon fa fa-check"></i>
+          Joinee Document Details has been deleted!
+        </h5>
+      </mk-alert>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="custom-tab-wrapper">
+          <mk-tabs  class="nav-justified" [activeTabIndex]="0">
+          <mk-tab header="Joinee Details" tabColor="#dd4b39" >
+            <div class="row">
+              <form
+                [formGroup]="joineeDetails"
+                (ngSubmit)="onSubmit();"
+                #myForm="ngForm"
+                enctype="application/x-www-form-urlencoded"
+              >
+                <div class="col-md-6">
+                  <div>
+                    <input
+                      type="hidden"
+                      [(ngModel)]="joinee_details.id"
+                      formControlName="id"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="">Name as per Aadhaar*</label>
+                    <input
+                      type="text"
+                      [readonly]="joineeDetailsDisabled"
+                      [(ngModel)]="joinee_details.name"
+                      formControlName="name"
+                      class="form-control"
+                      placeholder="Name as per Aadhaar"
+                    />
+                    <div
+                      *ngIf="joineeName.touched && joineeName.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="joineeName.errors.required"
+                        >The Joinee Name is required</span
+                      >
+                      <span *ngIf="joineeName.errors.minlength"
+                        >The Joinee Name should contain at least
+                        {{ joineeName.errors.minlength.requiredLength }}
+                        characters</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="department">Department*</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="department"
+                      formControlName="department_id"
+                      [(ngModel)]="joinee_details.department_id"
+                       placeholder="Please select"
+                       (change)="selectChange(joinee_details.department_id)"
+                    >
+                      <ng-option
+                      [disabled]="joineeDetailsDisabled"
+                        *ngFor="let department of departments"
+                        [value]="department.id"
+                      >
+                        {{ department.department }}
+                      </ng-option>
+                    </ng-select>
+                    <div
+                      *ngIf="
+                        joineeDepartment.touched && joineeDepartment.invalid
+                      "
+                      class="form-error-text"
+                    >
+                      <span *ngIf="joineeDepartment.errors.required"
+                        >Please select a Department</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="designation">Designation*</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="designation"
+                      formControlName="designation_id"
+                      [(ngModel)]="joinee_details.designation_id"
+                      placeholder="Please select"
+                    >
+                      <ng-option
+                      [disabled]="joineeDetailsDisabled"
+                        *ngFor="let designation of designations"
+                        [value]="designation.designation_id"
+                      >
+                        {{ designation.designation_name }}
+                      </ng-option>
+                    </ng-select>
+                    <div
+                      *ngIf="
+                        joineeDesignation.touched && joineeDesignation.invalid
+                      "
+                      class="form-error-text"
+                    >
+                      <span *ngIf="joineeDesignation.errors.required"
+                        >Please select a Designation</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group" *ngIf="viewJoineeDetails">
+                    <label for="">DOB*</label>
+                    <div class="input-group date">
+                      <input
+                        type="text"
+                        bsDatepicker
+                        formControlName="dob"
+                        class="form-control pull-right"
+                        readonly
+                        [maxDate]="max_date"
+                        [(ngModel)]="joinee_details.date_of_birth"
+                        #dob="bsDatepicker"
+                        [bsConfig]="{
+                          containerClass: 'theme-dark-blue',
+                          dateInputFormat: 'YYYY-MM-DD'
+                        }"
+                      />
+                      <div
+                        class="input-group-addon"
+                        (click)="dob.toggle()"
+                        [attr.aria-expanded]="dob.isOpen"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="dateOfBirth.touched && dateOfBirth.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="dateOfBirth.errors.required"
+                        >Date of Birth is required</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="">DOJ*</label>
+                    <div class="input-group date">
+                      <input
+                        type="text"
+                        formControlName="doj"
+                        [(ngModel)]="joinee_details.date_of_join"
+                        bsDatepicker
+                        class="form-control pull-right"
+                        readonly
+                        [min]="joineeDetails.controls.dob.value" 
+                        #doj="bsDatepicker"
+                        [bsConfig]="{
+                          containerClass: 'theme-dark-blue',
+                          dateInputFormat: 'YYYY-MM-DD'
+                        }"
+                      />
+                      <div
+                        class="input-group-addon"
+                        (click)="doj.toggle()"
+                        [attr.aria-expanded]="doj.isOpen"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="dateOfJoining.touched && dateOfJoining.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="dateOfJoining.errors.required"
+                        >Date of Joining is required</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Father’s name*</label>
+                    <input
+                      type="text"
+                      [readonly]="joineeDetailsDisabled"
+                      formControlName="father_name"
+                      [(ngModel)]="joinee_details.father_name"
+                      class="form-control"
+                      placeholder="Father’s name"
+                    />
+                    <div
+                      *ngIf="fatherName.touched && fatherName.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="fatherName.errors.required"
+                        >Father's Name is required</span
+                      >
+                      <span *ngIf="fatherName.errors.minlength"
+                        >Father's Name should contain at least
+                        {{ fatherName.errors.minlength.requiredLength }}
+                        characters</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Email ID*</label>
+                    <input
+                      type="text"
+                      [readonly]="joineeDetailsDisabled"
+                      [(ngModel)]="joinee_details.email"
+                      formControlName="email_id"
+                      class="form-control"
+                      placeholder="Email ID"
+                    />
+                    <div
+                      *ngIf="email.touched && email.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="email.errors.required"
+                        >Email Id is required</span
+                      >
+                      <span *ngIf="email.errors.email"
+                        >Please enter a valid email
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="">Skype ID</label>
+                    <input
+                      type="text"
+                      formControlName="skype_id"
+                      [(ngModel)]="joinee_details.skype_id"
+                      class="form-control"
+                      placeholder="Skype ID"
+                    />
+                  </div>
+                  <div class="form-group radioBtn" *ngIf="viewJoineeDetails">
+                    <label for="">Commitment Agreement* </label>
+                    <td>
+                    <label class=""><input type="radio" name="commitment_agreement" [(ngModel)]="commitment_agreement_value" formControlName="commitment_agreement" value="1" > yes</label>
+                    </td>
+                    <td>
+                    <label class=""><input type="radio" name="commitment_agreement" [(ngModel)]="commitment_agreement_value" formControlName="commitment_agreement" value="0" > no</label>
+                    </td>
+                    <div
+                      *ngIf="comitmentAgreement.touched && comitmentAgreement.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="comitmentAgreement.errors.required"
+                        >Comitment Agreement is required</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group radioBtn" *ngIf="viewJoineeDetails">
+                    <label for="">Joining Agreement*
+                    </label>
+                    <td>
+                    <label class=""><input type="radio" name="joining_agreement" [(ngModel)]="joining_agreement_value" formControlName="joining_agreement" value="1" > yes</label>
+                    </td>
+                    <td>
+                    <label class=""><input type="radio" name="joining_agreement" [(ngModel)]="joining_agreement_value" formControlName="joining_agreement" value="0" > no</label>
+                    </td>
+                    <div
+                      *ngIf="joiningAgreement.touched && joiningAgreement.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="joiningAgreement.errors.required"
+                        >Joining Agreement is required</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" *ngIf="viewJoineeDetails">
+                    <label for="">Recruiter’s Name*</label>
+                    <input
+                      type="text"
+                      formControlName="recruiter_name"
+                      class="form-control"
+                      [(ngModel)]="joinee_details.recruiter_name"
+                      placeholder="Recruiter’s name"
+                    />
+                    <div
+                      *ngIf="recruitersName.touched && recruitersName.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="recruitersName.errors.required"
+                        >Recruiter’s Name is required</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group requirement_textearea" *ngIf="viewJoineeDetails">
+                    <label for="">Requirement Details from the Recruiter* </label
+                    ><br />
+                    <textarea
+                      formControlName="requirement_detail"
+                      [(ngModel)]="joinee_details.requirement_details"
+                      id="recruiter"
+                      rows="5"
+                      cols=""
+                    >
+                    </textarea>
+                    <div
+                      *ngIf="
+                        requirementDetail.touched && requirementDetail.invalid
+                      "
+                      class="form-error-text"
+                    >
+                      <span *ngIf="requirementDetail.errors.required"
+                        >Requirement Details from the Recruiter is
+                        required</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group" *ngIf="viewJoineeDetails">
+                    <label for="requirement_type">Requirement Type* </label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="requirement_type"
+                      formControlName="requirement_type"
+                      placeholder="Please select"
+                    >
+                      <ng-option
+                        *ngFor="let requirement of requirements"
+                        [value]="requirement.id"
+                      >
+                        {{ requirement.name }}
+                      </ng-option>
+                    </ng-select>
+                    <div
+                      *ngIf="requirementType.touched && requirementType.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="requirementType.errors.required"
+                        >Requirement Type is required</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group" *ngIf="viewJoineeDetails">
+                    <label for="">Location of the Candidate*</label>
+                    <input
+                      type="text"
+                      formControlName="location"
+                      class="form-control"
+                      [(ngModel)]="joinee_details.location"
+                      placeholder="Location of the candidate"
+                    />
+                    <div
+                      *ngIf="
+                        candidateLocation.touched && candidateLocation.invalid
+                      "
+                      class="form-error-text"
+                    >
+                      <span *ngIf="candidateLocation.errors.required"
+                        >Location of the Candidate is required</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group" *ngIf="viewJoineeDetails">
+                    <label for="requirement_lead">Requirement Lead* </label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="requirement_lead"
+                      formControlName="requirement_lead_id"
+                      placeholder="Please select"
+                    >
+                      <ng-option *ngFor="let lead of leads" [value]="lead.id">
+                        {{ lead.name }}
+                      </ng-option>
+                    </ng-select>
+                    <div
+                      *ngIf="requirmentLead.touched && requirmentLead.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="requirmentLead.errors.required"
+                        >Please Select a lead</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Contact Number*</label>
+                    <input
+                    [readonly]="joineeDetailsDisabled"
+                      type="text"
+                      formControlName="contact_number"
+                      class="form-control"
+                      [(ngModel)]="joinee_details.contact_number"
+                      placeholder="Contact Number"
+                    />
+                    <div
+                      *ngIf="contactNumber.touched && contactNumber.invalid"
+                      class="form-error-text"
+                    >
+                      <span *ngIf="contactNumber.errors.required"
+                        >Contact Number is required</span
+                      >
+                      <span *ngIf="contactNumber.errors.minlength"
+                        >Contact Number should contain at least
+                        {{ contactNumber.errors.minlength.requiredLength }}
+                        numbers</span
+                      >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="">Alternate Number</label>
+                    <input
+                      type="text"
+                      formControlName="alternate_number"
+                      class="form-control"
+                      [(ngModel)]="joinee_details.alternate_number"
+                      placeholder="Alternate Number"
+                    />
+                  </div>
+                  <div class="form-group radioBtn"  *ngIf="viewJoineeDetails">
+                    <label for="">Accommodation Required*</label>
+                    <td>
+                      <label
+                        ><input
+                          type="radio"
+                          name="candidate_accomodation"
+                          value="1"
+                          [(ngModel)]="candidate_accomodation_value"
+                          formControlName="candidate_accomodation"
+                        />
+                        yes
+                      </label>
+                    </td>
+                    <td>
+                      <label
+                        ><input
+                          type="radio"
+                          name="candidate_accomodation"
+                          value="0"
+                          [(ngModel)]="candidate_accomodation_value"
+                          formControlName="candidate_accomodation"
+                        />
+                        no
+                      </label>
+                    </td>
+                  </div>
+                  <div class="form-group custom-file" *ngIf="showResume">
+                    <label for="exampleInputFile">Resume </label>
+                    <br>
+                    <input
+                      type="file"
+                      accept=".doc, .docx, .pdf"
+                      #resumeInputFile
+                      id="resumeInputFile"
+                      name="profile"
+                      formControlName="resume"
+                      [class.button-show]="joinee_details.id"
+                      (change)="onResumeSelected($event.target.files)"
+                    /><input
+                          type="text"
+                          disabled
+                          *ngIf="joinee_details.id"
+                          value="{{resume_name}}"
+                        />
+                        <!-- <a href="{{resume_path}}" *ngIf="showResumeDownload" download="" class="btn btn-info download-btn"><i class="fa fa-download"></i></a> -->
+                        <button  *ngIf="joinee_details.id && changeResume" type="button" class="btn btn-primary resume-button" (click)="resumeInputFile.click()">Change</button>
+                        <button
+                              type="button"
+                              *ngIf="showResumeDownload"
+                              [disabled]="resume_download"
+                              (click)='downloadResume(resume_id)'
+                              class="btn btn-info download-btn"
+                              >
+                              <i class="fa fa-download"></i>
+                              </button>
+                  </div>
+                  <div class="form-group" *ngIf="joineeDetailShow">
+                    <label for="techinical_lead">Techinical Lead*</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="techinical_lead"
+                      formControlName="techinical_lead_id"
+                      placeholder="Please select"
+                    >
+                      <ng-option *ngFor="let lead of leads" [value]="lead.id">
+                        {{ lead.name }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                  <div class="form-group" *ngIf="joineeDetailShow">
+                    <label for="buddy_coach">Buddy Coach*</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="buddy_coach"
+                      formControlName="buddy_coach_id"
+                      placeholder="Please select"
+                    >
+                      <ng-option *ngFor="let lead of leads" [value]="lead.id">
+                        {{ lead.name }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                  <div class="form-group requirement_textearea" *ngIf="showSystemRequirements">
+                    <label for="">System Requirements*</label
+                    ><br />
+                    <textarea
+                      formControlName="system_requirements"
+                      [(ngModel)]="joinee_details.system_requirements"
+                      id="recruiter"
+                      rows="5"
+                      cols=""
+                    >
+                    </textarea>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="viewJoineeDetails">
+                  <div class="form-group">
+                    <label>Cold calling status*</label>
+                    <button
+                      [disabled]="joineeDetails.get('cold_call_status').invalid"
+                      type="button"
+                      class="btn btn-primary addStatus"
+                      (click)="onAddStatus()"
+                      *ngIf="updateCandidateSubmitPermission"
+                    >
+                      Add
+                    </button>
+                  </div>
+                  <div class="row tb-row">
+                    <table class="table table-bordered table-colored">
+                      <thead>
+                        <tr>
+                          <th>Date*</th>
+                          <th>Status*</th>
+                        </tr>
+                      </thead>
+                      <ng-container>
+                        <tbody
+                          formArrayName="cold_call_status"
+                          *ngFor="
+                            let skill of joineeDetails.get('cold_call_status')['controls'];
+                            let i = index
+                          "
+                        >
+                          <tr [formGroupName]="i">
+                            <td>
+                              <div>
+                                <input
+                                  type="hidden"
+                                  formControlName="status_id"
+                                  class="form-control"
+                                />
+                              </div>
+                              <div class="form-group">
+                                <div class="input-group date">
+                                  <input
+                                    type="text"
+                                    bsDatepicker
+                                    formControlName="status_date"
+                                    class="form-control pull-right"
+                                    readonly
+                                    #status_date="bsDatepicker"
+                                    [bsConfig]="{
+                                      containerClass: 'theme-dark-blue',
+                                      dateInputFormat: 'YYYY-MM-DD'
+                                    }"
+                                  />
+                                  <div
+                                    class="input-group-addon"
+                                    (click)="status_date.toggle()"
+                                    [attr.aria-expanded]="status_date.isOpen"
+                                  >
+                                    <i class="fa fa-calendar"></i>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                class="form-control"
+                                name="status"
+                                formControlName="status"
+                                placeholder=""
+                                class="form-control"
+                              />
+                            </td>
+                            <td class="remove-callStatus" *ngIf="i > 0">
+                              <button
+                                (click)="onRemovecallStatus(i)"
+                                class="btn btn-danger btn-sm"
+                                *ngIf="updateCandidateSubmitPermission"
+                              >
+                                <i
+                                  class="fa fa-close"
+                                  style="font-size:20px;"
+                                ></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </ng-container>
+                    </table>
+                  </div>
+                <div class="col-md-6">
+                  <div class="form-group radioBtn" *ngIf="viewJoineeDetails">
+                    <label for="">Assigned with Consultant Work*</label>
+                    <td>
+                      <label
+                        ><input
+                          (click)="consultant_lead_click('yes')"
+                          type="radio"
+                          name="assigned_consultant_work"
+                          value="1"
+                          [(ngModel)]="assigned_consultant_work_value"
+                          formControlName="assigned_consultant_work"
+                        />
+                        yes
+                      </label>
+                    </td>
+                    <td>
+                      <label
+                        ><input
+                          type="radio"
+                          (click)="consultant_lead_click('no')"
+                          name="assigned_consultant_work"
+                          value="0"
+                          [(ngModel)]="assigned_consultant_work_value"
+                          formControlName="assigned_consultant_work"
+                        />
+                        no
+                      </label>
+                    </td>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group" *ngIf="isShownConsultant && viewJoineeDetails">
+                    <label for="">Consultant Lead</label>
+                    <ng-select
+                      [searchable]="true"
+                      class="custom"
+                      [clearable]="false"
+                      labelForId="consultant_lead"
+                      formControlName="consultant_lead_id"
+                      placeholder="Please select"
+                    >
+                      <ng-option
+                        [disabled]="consultantLead"
+                        *ngFor="let lead of leads"
+                        [value]="lead.id"
+                      >
+                        {{ lead.name }}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="showJoineeLinkCheckbox">
+                  <div class="col-md-6">
+                    <div class="form-group radioBtn checkbox">
+                    <!-- <label for="">joinee link disabled</label> -->
+                      <!-- <td> -->
+                          <input
+                            type="checkbox"
+                            name="joinee_link_disabled"
+                            value="1"
+                            [checked]="joinee_link_check_box"
+                            formControlName="joinee_link_disabled"
+                          />
+                      <!-- </td> -->
+                      <label for="">Joinee Link Disabled</label>
+                    </div>
+                  </div>
+                
+                  <div class="form-group col-md-6" >
+                    <label for="">Close Time:</label>
+                    <div class="input-group date">
+                      <input
+                        type="text"
+                        formControlName="linkCloseTime"
+                        bsDatepicker
+                        class="form-control pull-right"
+                        readonly
+                        [(ngModel)]="joinee_details.linkCloseTime"
+                        #linkCloseTime="bsDatepicker"
+                        [bsConfig]="{
+                          containerClass: 'theme-dark-blue',
+                          dateInputFormat: 'YYYY-MM-DD'
+                        }"
+                      />
+                      <div
+                        class="input-group-addon"
+                        (click)="linkCloseTime.toggle()"
+                        [attr.aria-expanded]="linkCloseTime.isOpen"
+                      >
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                </div>
+                <div class="col-md-12 text-center">
+                  <div class="form-group">
+                    <label for=""></label>
+                    <button
+                      *ngIf="showSystemRequirements && joineeDetailView"
+                      type="button"
+                      (click)="systemReqSubmit()"
+                      [disabled]="joineeDetails.get('system_requirements').value == null"
+                      class="btn btn-primary submit-button"
+                    >
+                      Update
+                    </button>
+                    <button
+                    *ngIf="joineeDetailShow"
+                      type="button"
+                      (click)="leadDetailSubmit()"
+                      [disabled]="joineeDetails.get('techinical_lead_id').value == null || joineeDetails.get('buddy_coach_id').value == null"
+                      class="btn btn-primary submit-button"
+                    >
+                      Update
+                    </button>
+                    <button
+                      *ngIf="joinee_details.id && updateCandidateSubmitPermission && !joineeDetailShow && !showSystemRequirements"
+                      type="submit"
+                      [disabled]="!myForm.form.valid"
+                      class="btn btn-primary submit-button"
+                    >
+                      Update
+                    </button>
+                    <button
+                      *ngIf="!joinee_details.id && !joineeDetailShow"
+                      type="submit"
+                      [disabled]="!myForm.form.valid"
+                      class="btn btn-primary submit-button"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="OnCloseJoinee()"
+                    >
+                      Close
+                    </button>
+                  </div>
+                  <!-- Failed mails -->
+                  
+                  <div class="row tb-row" *ngIf="mailStatus && mailStatusShow">
+                    <table class="table table-bordered table-colored">
+                      <thead>
+                        <tr>
+                          <th>Failed Mails</th>
+                          <th></th>
+                          <th></th>
+                        </tr>
+                        
+                      </thead>
+                      <ng-container>
+                        <tbody *ngIf="failedMails">
+                          <tr>
+                            <td colspan="3"><button type="button" class="btn btn-primary" (click)="onSendFailedMails()" style="float: right; margin-bottom: 5px;" >Resend Mails</button></td>
+                          </tr>
+                          <tr>
+                            <td><label>S.No</label></td>
+                            <td><label>Subject</label></td>
+                            <td><label>Status</label></td>
+                          </tr>
+                          <tr *ngFor="let failedMail of failedMails; let i = index;">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ failedMail.subject }}</td>
+                            <td>{{ (failedMail.status == 0) ? 'Failed' : 'Success' }}</td>
+                          </tr>
+                        </tbody>
+                      </ng-container>
+                    </table>
+                  </div>
+                  <!-- /Failed mails -->
+                </div>
+              </form>
+            </div>
+          </mk-tab>
+          <mk-tab
+          *ngIf="addJoineeDocumentPermission || viewJoineeDocumentPermission && !isEdit"
+            header="Joinee’s documents"
+            tabColor="##47d147"
+          >
+            <div class="row">
+              <div class="col-md-12">
+               <button
+                *ngIf="addJoineeDocumentPermission"
+                  class="btn btn-primary btn-sm pull-right addDocument"
+                  (click)="openModal()"
+                >
+                  Add Joinee Document
+                </button>
+
+                <button
+                *ngIf="onBoardingPermissions" (click)="Onboarding()"
+                  class="btn btn-primary btn-sm pull-right addDocument"
+                >
+                Onboarding
+                </button>
+                <!-- <button
+                *ngIf="addJoineeDocumentPermission"
+                  class="btn btn-primary btn-sm pull-right addDocument"
+                  (click)="openSynergyModal()"
+                >
+                  Add Synergy details
+                </button> -->
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Contract File</th>
+                      <th>Joining Commitement File</th>
+                      <th>Salary BreakUp File</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let data of doc_files">
+                        <ng-container *ngFor="let data of data">
+                          
+                            <td *ngIf="data.type != null && data.file_type_name == 'contractFile'">{{data.file_type_name}}
+                              <div class="download-remove"><button
+                              type="button"
+                              (click)="downloadDoc(data.joinee_doc_id)"
+                              class="btn btn-info download-btn"
+                              >
+                              <i class="fa fa-download"></i>
+                              </button>
+                              <button
+                              type="button"
+                              (click)="deleteParticularDoc(data.joinee_doc_id)"
+                              class="btn btn-danger btn-xs mr5"
+                              >
+                              <i class="fa fa-remove"></i>
+                              </button>
+                            </div>
+                            </td>
+                            <td *ngIf="data.type == null && data.file_type_name =='contractFile'"> No file uploaded</td>
+                        </ng-container>
+                        <ng-container *ngFor="let data of data">
+                          <td *ngIf="data.type != null && data.file_type_name == 'joiningCommitementFile'">{{data.file_type_name}}
+                            <div class="download-remove">
+                            <button
+                              type="button"
+                              (click)="downloadDoc(data.joinee_doc_id)"
+                              class="btn btn-info download-btn"
+                              >
+                              <i class="fa fa-download"></i>
+                              </button>
+                            <button
+                            type="button"
+                            (click)="deleteParticularDoc(data.joinee_doc_id)"
+                            class="btn btn-danger btn-xs mr5"
+                            >
+                            <i class="fa fa-remove"></i>
+                            </button></div></td>
+                          <td *ngIf="data.type == null && data.file_type_name =='joiningCommitementFile'"> No file uploaded</td>
+                        </ng-container>
+                        <ng-container *ngFor="let data of data">
+                          <td *ngIf="data.type != null && data.file_type_name == 'salaryBreakUpFile'">{{data.file_type_name}}
+                          <div class="download-remove">
+                            <button
+                              type="button"
+                              (click)="downloadDoc(data.joinee_doc_id)"
+                              class="btn btn-info download-btn"
+                              >
+                              <i class="fa fa-download"></i>
+                              </button>
+                            <button
+                            type="button"
+                            (click)="deleteParticularDoc(data.joinee_doc_id)"
+                            class="btn btn-danger btn-xs mr5"
+                            >
+                            <i class="fa fa-remove"></i>
+                            </button></div></td>
+                          <td *ngIf="data.type == null && data.file_type_name =='salaryBreakUpFile'"> No file uploaded</td>
+                        <td *ngIf="data.file_type_name =='salaryBreakUpFile'">
+                          <button
+                          type="button"
+                          class="btn btn-warning btn-xs mr5 edit"
+                          (click)="openModal(data.joinee_document_id)"
+                          >
+                          <i class="fa fa-edit"></i>
+                        </button>
+                        <button
+                        *ngIf="addJoineeDocumentPermission"
+                        type="button"
+                        (click)="deleteAllDoc(data.joinee_document_id)"
+                        class="btn btn-danger btn-xs mr5"
+                        >
+                        <i class="fa fa-remove"></i>
+                        </button>
+                      </td> 
+                    </ng-container>
+                      </tr>
+                  </tbody>
+                </table> 
+              </div>
+            </div>
+            <div
+              class="modal"
+              id="myModal"
+              [style.display]="showModal ? 'block' : 'none'"
+            >
+              <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      (click)="hide()"
+                    >
+                      &times;
+                    </button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div>
+                          <mk-alert
+                            [callout]="true"
+                            backgroundColor="success"
+                            *ngIf="updateDocumentMessageSucess"
+                          >
+                            <h5>
+                              <i class="icon fa fa-check"></i>
+                              Candidate document have been updated successfully!
+                            </h5>
+                          </mk-alert>
+                        </div>
+                        <div>
+                          <mk-alert
+                            [callout]="true"
+                            backgroundColor="danger"
+                            *ngIf="updateDocumentMessageFailure"
+                          >
+                            <h5>
+                              <i class="icon fa fa-check"></i>
+                              Only pdf,docx and doc files are allowed!
+                            </h5>
+                          </mk-alert>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <form
+                          [formGroup]="joineeDocuments"
+                          name="uploadForm"
+                          method="post"
+                          (ngSubmit)="documentSubmit(); doc_data_display.id ? '' : document.reset()"
+                          #document="ngForm"
+                          enctype="application/x-www-form-urlencoded"
+                        >
+                        <div class="row">
+                          <div class="form-group col-md-6">
+                            <input type="hidden" formControlName="id" [(ngModel)]="doc_data_display.id">
+                            <label for="">Open Date:</label>
+                            <div class="input-group date">
+                              <input
+                                type="text"
+                                formControlName="openTime"
+                                [(ngModel)]="doc_data_display.open_time"
+                                bsDatepicker
+                                class="form-control pull-right"
+                                readonly
+                                #opentime="bsDatepicker"
+                                [bsConfig]="{
+                                  containerClass: 'theme-dark-blue',
+                                  dateInputFormat: 'YYYY-MM-DD'
+                                }"
+                              />
+                              <div
+                                class="input-group-addon"
+                                (click)="opentime.toggle(); checkOpentime()"
+                                [attr.aria-expanded]="opentime.isOpen"
+                              >
+                                <i class="fa fa-calendar"></i>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="">Close Date:</label>
+                            <div class="input-group date">
+                              <input
+                                type="text"
+                                formControlName="closeTime"
+                                [(ngModel)]="doc_data_display.close_time"
+                                bsDatepicker
+                                class="form-control pull-right"
+                                readonly
+                                [minDate]="doc_data_display.open_time"
+                                [attr.disabled]="true"
+                                #closeTime="bsDatepicker"
+                                [bsConfig]="{
+                                  containerClass: 'theme-dark-blue',
+                                  dateInputFormat: 'YYYY-MM-DD'
+                                }"
+                              />
+                              <!-- <p *ngIf="joineeDocuments.touched && joineeDocuments.invalid">Please add a valid from and to date</p> -->
+                              <div
+                                class="input-group-addon"
+                                (click)="closeTime.toggle()"
+                                [attr.aria-expanded]="closeTime.isOpen"
+                                [class.no-click]="closeTimeOpen"
+                              >
+                                <i class="fa fa-calendar"></i>
+                              </div>
+                              <div
+                                *ngIf="closeTime.touched && closeTime.invalid"
+                                class="form-error-text"
+                              >
+                                <span>Please add a valid from and to date</span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="!doc_data_display.id && !hide_send_mail">
+                          <input
+                              type="checkbox"
+                              name="send_mail"
+                              value="1"
+                              formControlName="send_mail"
+                            />
+                          <label for="" id="send-mail">  Send Mail Now</label>
+                        </div>
+                          <label for="">Contract: </label> 
+                          <div class="row">
+                          <div class="col-md-3">
+                            <label class="radio-inline"><input type="radio" name="contract" [(ngModel)]="contract_value" formControlName="contract" (click)="open(1)" value="1" > Yes</label>
+                            <label class="radio-inline"><input type="radio" name="contract" [(ngModel)]="contract_value"formControlName="contract" (click)="close(4, 'contract')" value="0" > No</label>                              
+                          </div>
+                          <div class="col-md-5"> 
+                          <textarea class="form-control"
+                          formControlName="contractComment" [(ngModel)]="contract_comment_value"
+                          placeholder="Comment"
+                          rows="2"
+                          cols=""></textarea>
+                          </div>
+                          <div class="col-md-4">
+                            <input
+                            #contractInputFile
+                            id="contractInputFile"
+                            *ngIf="joineeContractFile == 1"
+                            type="file"
+                            accept=".doc, .docx, .pdf"
+                            formControlName="ContractFile"
+                            (change)="onFileSelected($event.target.files, 'contract')"
+                            name="contractFile"
+                            />
+                          </div>
+                        </div>
+                        <label for="">Joining Commitment: </label> 
+                          <div class="row">
+                          <div class="col-md-3">
+                            <label class="radio-inline"><input type="radio" name="joiningCommitement" [(ngModel)]="joining_commitement_value" formControlName="joiningCommitement" (click)="open(2)" value="1" > Yes</label>
+                            <label class="radio-inline"><input type="radio" name="joiningCommitement" [(ngModel)]="joining_commitement_value" formControlName="joiningCommitement" (click)="close(5,'joiningCommitement')" value="0" > No</label>                              
+                          </div>
+                          <div class="col-md-5">
+                            <textarea class="form-control"
+                            formControlName="joiningCommitementComment" [(ngModel)]="joining_commitement_comment_value"
+                            placeholder="Comment"
+                            rows="2"
+                            cols=""></textarea>
+                          </div>
+                          <div class="col-md-4">
+                            <input
+                            *ngIf="joineeCommitmentFile == 2"
+                            type="file"
+                            accept=".doc, .docx, .pdf"
+                            formControlName="joiningCommitementFile"
+                            (change)="onFileSelected($event.target.files,'joiningCommitement')"
+                            #exampleInputFile
+                            id="exampleInputFile"
+                            name="joiningCommitementFile"
+                            />
+                          </div>
+                        </div>
+                        <label for="">Salary Break Up: </label> 
+                          <div class="row">
+                          <div class="col-md-3">
+                            <label class="radio-inline"><input type="radio" name="salaryBreakUp" formControlName="salaryBreakUp" [(ngModel)]="salary_break_up_value" (click)="open(3)" value="1" > Yes</label>
+                            <label class="radio-inline"><input type="radio" name="salaryBreakUp" formControlName="salaryBreakUp" [(ngModel)]="salary_break_up_value" (click)="close(6,'salaryBreakUp')" value="0" > No</label>                              
+                          </div>
+                          <div class="col-md-5">
+                            <textarea class="form-control"
+                            formControlName="salaryBreakUpComment" [(ngModel)]="salary_break_up_comment_value"
+                            placeholder="Comment"
+                            rows="2"
+                            cols=""></textarea>
+                          </div>
+                          <div class="col-md-4">
+                            <input
+                            *ngIf="joineeSalaryFile == 3"
+                            type="file"
+                            accept=".doc, .docx, .pdf"
+                            formControlName="salaryBreakUpFile"
+                            (change)="onFileSelected($event.target.files,'salaryBreakUp')"
+                            #exampleInputFile
+                            id="exampleInputFile1"
+                            name="salaryBreakUpFile"
+                            />
+                          </div>
+                        </div>
+                        <label for="">Joining Bonus: </label> 
+                          <div class="row">
+                          <div class="col-md-3">
+                            <label class="radio-inline"><input type="radio" name="joiningBonus" formControlName="joiningBonus" [(ngModel)]="joining_bonus_value" value="1" > Yes</label>
+                            <label class="radio-inline"><input type="radio" name="joiningBonus" formControlName="joiningBonus" [(ngModel)]="joining_bonus_value" value="0" > No</label>                              
+                          </div>
+                          <div class="col-md-5">
+                          <textarea class="form-control"
+                          formControlName="joiningBonusComment" [(ngModel)]="joining_bonus_comment_value"
+                          placeholder="Comment"
+                          rows="2"
+                          cols=""></textarea>
+                          </div>
+                        </div>
+                        <label for="">Back up Lead: </label> 
+                          <div class="row">
+                          <div class="col-md-3">
+                            <label class="radio-inline"><input type="radio" name="backUpLead" formControlName="backUpLead" [(ngModel)]="back_up_lead_value" value="1" > Yes</label>
+                            <label class="radio-inline"><input type="radio" name="backUpLead" formControlName="backUpLead" [(ngModel)]="back_up_lead_value" value="0" > No</label>                              
+                          </div>
+                          <div class="col-md-5">
+                            <textarea class="form-control"
+                            formControlName="backUpLeadComment" [(ngModel)]="back_up_lead_comment_value"
+                            placeholder="Comment"
+                            rows="2"
+                            cols=""></textarea>
+                          </div>
+                        </div>
+                        <label for="">Buddy Coach: </label> 
+                          <div class="row">
+                          <div class="col-md-3">
+                          </div>
+                          <div class="col-md-5">
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={{joinee_details.buddy_coach_name}}
+                            disabled
+                            />
+                          </div>
+                        </div>
+                        <label for="">Generalist: </label> 
+                          <div class="row">
+                            <div class="col-md-3"></div>
+                          <div class="col-md-5">
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={{userName}}
+                            disabled
+                            />
+                        </div>
+                          </div>
+                          <div class="col-md-12 text-center joinee_submit">
+                            <div class="form-group">
+                              <button
+                                *ngIf="addJoineeDocumentPermission && !doc_data_display.id"
+                                type="submit"
+                                class="btn btn-primary submit-button"
+                                [disabled]="!document.form.valid"
+                              >
+                                Submit
+                              </button>
+                              <button
+                                type="button"
+                                *ngIf="addJoineeDocumentPermission && doc_data_display.id"
+                                class="btn btn-primary"
+                                [disabled]="!document.form.valid"
+                                (click)="updateDocumentDetails()"
+                              >
+                                Update
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mk-tab>
+          <mk-tab
+          *ngIf="addTechinicalTaskPermission || viewTechinicalDocumentPermission && !isEdit"
+            header="Technical Task"
+            tabColor="#3333ff"
+          >
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                class="btn btn-primary btn-sm consultantTask"
+                (click)="openConsultantTask(1)"
+                [class.button-clicked]="consultantButtonClicked"
+              >
+              Consultant Task
+              </button>
+              <button
+                class="btn btn-primary btn-sm trainingTask"
+                (click)="openTrainingTask(0);"
+                [class.button-clicked]="trainingButtonClicked"
+              >
+              Training Task:
+              </button>
+            </div>
+          </div>
+          <div class="lead_name" *ngIf="showLeadName">
+            <label >Techinical Lead :</label>
+            <input
+            type="text"
+            class="form-control"
+            value={{joinee_details.techinical_lead_name}}
+            disabled
+            />
+         </div>
+          <hr>
+          <div class="row" *ngIf="consultantleadTask">
+            <!-- <div class="row" [hidden]="!consultantleadTask"> -->
+            <div class="col-md-12">
+              <button
+                  *ngIf="addTechinicalTaskPermission"
+                  class="btn btn-primary btn-sm pull-right addDocument"
+                  (click)="techinicalTask('consultant')"
+                >
+                  Add Consultant Task
+                </button>
+                <!-- <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover"> -->
+                  <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Client Name</th>
+                    <th>Task Assigned</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of consultantTask; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td>{{data.client_name}}</td>
+                    <td *ngIf="data.task_assigned == 1">yes</td>
+                    <td *ngIf="data.task_assigned == 0">No</td>
+                    <td><button
+                      type="button"
+                      class="btn btn-warning btn-xs mr5 edit"
+                      (click)="consultantTaskEdit(data)"
+                      >
+                      <i *ngIf="!addTechinicalTaskPermission" class="fa fa-eye"></i>
+                      <i *ngIf="addTechinicalTaskPermission" class="fa fa-edit"></i>
+                    </button>
+                    <button
+                    *ngIf="addTechinicalTaskPermission"
+                    type="button"
+                    class="btn btn-danger btn-xs mr5"
+                    (click)="
+                                OnDeleteTrainingTask(
+                                  data.candidate_id,
+                                  data.id
+                                )
+                              "
+                    >
+                    <i class="fa fa-remove"></i>
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <app-techinical-task *ngIf="consultantleadTaskForm" [data]= "0" [id]="this.joinee_details['id']" [consultantDetails]="this.consultantDetails"></app-techinical-task>
+          </div>
+          <div class="row" *ngIf="trainingleadTask">
+            <!-- <div class="row" [hidden]="!trainingleadTask"> -->
+            <div class="col-md-12">
+              <button
+                  *ngIf="addTechinicalTaskPermission"
+                  class="btn btn-primary btn-sm pull-right addDocument"
+                  (click)="techinicalTask('training')"
+                >
+                  Add Training Task
+                </button>
+                <!-- <table datatable [dtOptions]="dtOptions"  [dtTrigger]="trigger" class="row-border hover"> -->
+                  <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Training Task Assigned</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of trainingTask; let i = index;">
+                    <td>{{i+1}}</td>
+                    <td *ngIf="data.task_assigned == 1">yes</td>
+                    <td *ngIf="data.task_assigned == 0">No</td>
+                    <td><button
+                      type="button"
+                      class="btn btn-warning btn-xs mr5 edit"
+                      (click)="trainingTaskEdit(data)"
+                      >
+                      <i 
+                      *ngIf="!addTechinicalTaskPermission" class="fa fa-eye"></i>
+                      <i 
+                      *ngIf="addTechinicalTaskPermission" class="fa fa-edit"></i>
+                      </button>
+                      <button
+                      *ngIf="addTechinicalTaskPermission"
+                      type="button"
+                      class="btn btn-danger btn-xs mr5"
+                      (click)="
+                                OnDeleteTrainingTask(
+                                  data.candidate_id,
+                                  data.id
+                                )
+                              "
+                      >
+                      <i class="fa fa-remove"></i>
+                      </button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <app-techinical-task *ngIf="trainingleadTaskForm" [data]= "1" [id]="this.joinee_details['id']" [trainingDetails]="this.trainingDetails"></app-techinical-task>
+          </div>
+           </mk-tab>
+           <mk-tab
+             header="Candidate Details"
+             tabColor="#3333ff" *ngIf="viewJoineeFormDetails && joinee_details.is_link_disabled">
+             <div class="row" class="joinee_info">
+              <form
+                [formGroup]="joineeCandidateDetails"
+                #myForm="ngForm"
+                enctype="application/x-www-form-urlencoded"
+              >
+              <div class="col-md-12">
+                <h3 class="text-dark">Personal Information</h3>
+              </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="">First Name*</label>
+                    <input
+                      type="text"                    
+                      formControlName="firstName"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="First Name as per Aadhaar"
+                    />
+                  </div>
+                </div>  
+                <div class="col-md-6">
+                  <div class="form-group ">
+                    <label for="">Last Name*</label>
+                    <input
+                      type="text"                    
+                      formControlName="lastName"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Last Name as per Aadhaar"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Contact Number*</label>
+                    <input
+                      type="text"                    
+                      formControlName="contactNumber"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Contact Number"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="">Alternate Number*</label>
+                    <input
+                      type="text"                    
+                      formControlName="alternateNumber"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Alternate Number"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Father’s Name*</label>
+                    <input
+                      type="text"                    
+                      formControlName="fatherName"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Father’s Name"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="">Father’s Contact Number*</label>
+                    <input
+                      type="text"                    
+                      formControlName="fatherNumber"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Father’s Contact Number"
+                    />
+                  </div>
+                </div> 
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Mother’s Name*</label>
+                    <input
+                      type="text"                    
+                      formControlName="motherName"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Mother’s Name"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="">Mother’s Contact Number*</label>
+                    <input
+                      type="text"                    
+                      formControlName="motherNumber"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Mother’s Contact Number"
+                    />
+                  </div>
+
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Present Address*</label>
+                    <textarea 
+                      formControlName="presentAddress" 
+                      [attr.disabled]="true"
+                      class="form-control" 
+                      cols="30" 
+                      rows="6"
+                      placeholder="Present Address">
+                    </textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Permanent Address*</label>
+                    <textarea 
+                      formControlName="permanentAddress" 
+                      [attr.disabled]="true"
+                      class="form-control" 
+                      cols="30" 
+                      rows="6"
+                      placeholder="Permanent Address">
+                    </textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Date of Birth*</label>
+                    <input
+                      type="date"                    
+                      formControlName="DOB"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="D.O.B"
+                    />
+                  </div> 
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Date of Joining*</label>
+                    <input
+                      type="date"                    
+                      formControlName="DOJ"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="D.O.J"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Blood Group*</label>
+                    <input
+                      type="text"                    
+                      formControlName="bloodGroup"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Blood Group"
+                    />
+                  </div>
+                </div> 
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">Email Address*</label>
+                    <input
+                      type="email"                    
+                      formControlName="emailAddress"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="Email Address"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">UAN Number*</label>
+                    <input
+                      type="text"                    
+                      formControlName="uan"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="UAN Number"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">  
+                    <label for="">LandMark*</label>
+                    <input
+                      type="text"                    
+                      formControlName="landMark"
+                      [attr.disabled]="true"
+                      class="form-control"
+                      placeholder="LandMark"
+                    />
+                  </div>
+
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group radioBtn">  
+                    <label>
+                    <input
+                      type="radio"                    
+                      formControlName="maritalStatus"
+                      [attr.disabled]="true"
+                      [value]="true"
+                      name="maritalStatus"
+                      [(ngModel)]="CandidateMarried"
+                      [value]="true"
+                    />
+                    Married</label> 
+                    <label>
+                    <input
+                      type="radio"                    
+                      formControlName="maritalStatus"
+                      [attr.disabled]="true"
+                      [value]="false"
+                      name="maritalStatus"
+                      [(ngModel)]="CandidateMarried" 
+                      [value]="false"                     
+                    />
+                    Unmarried</label>
+                  </div> 
+                </div> 
+                  <ng-template [ngIf]="CandidateMarried">
+                    <div class="col-md-4">
+                      <div class="form-group">  
+                        <label>Spouse Name</label>
+                        <input
+                          type="text"                    
+                          formControlName="spouseName"
+                          [attr.disabled]="true"
+                          class="form-control"
+                          placeholder="Spouse Name"
+                        />
+                      </div>                                                                                         
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">  
+                        <label>Phone Number</label>
+                        <input
+                          type="text"                    
+                          formControlName="spousePhoneNumber"
+                          [attr.disabled]="true"
+                          class="form-control"
+                          placeholder="Phone Number"
+                        />
+                      </div>                                                                                         
+                    </div> 
+                    <div class="col-md-4">
+                      <div class="form-group">  
+                        <label>DOB</label>
+                        <input
+                          type="date"                    
+                          formControlName="spouseDOB"
+                          [attr.disabled]="true"
+                          class="form-control"
+                          placeholder="DOB"
+                        />
+                      </div>                                                                                         
+                    </div>
+  
+                    <div class="col-md-12"  *ngIf="child" formArrayName="childDetails">
+                          <label for="">Child Details</label>
+                          <div *ngFor="let childDet of joineeCandidateDetails.controls.childDetails['controls']; let i=index" [formGroupName]="i">
+                            <div class="col-md-12">  
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">Child Name</label>
+                                  <input type="text" class="form-control" formControlName="childName"
+                                  [attr.disabled]="true">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">Child Gender</label>
+                                  <input type="text" class="form-control" formControlName="childGender"
+                                  [attr.disabled]="true">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="">DOB</label>
+                                  <input type="date" class="form-control" formControlName="childDOB"
+                      [attr.disabled]="true">
+                                </div>
+                              </div>
+                            </div>   
+                          </div>
+                    </div> 
+                  </ng-template> 
+
+                  
+                                              
+              </form>
+              </div>
+
+              <div class="row" class="joinee_info">
+                <form
+                  [formGroup]="joineeCandidatePersonalReferenceDetails"
+                  #myForm="ngForm"
+                  enctype="application/x-www-form-urlencoded"
+                >
+                    <div class="col-md-12">
+                      <h3 class="text-dark">Personal Reference Information</h3>
+                    </div>
+
+                    <div class="col-md-12" formArrayName="refercenceDetails">
+                      <div *ngFor="let referenceDet of joineeCandidatePersonalReferenceDetails.controls.refercenceDetails['controls']; let i = index" [formGroupName]="i">
+                        <div class="form-group">
+                          <label for="">Name</label>
+                          <input type="text" class="form-control" [attr.disabled]="true" formControlName="referenceName">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Designation</label>
+                          <input type="text" class="form-control" [attr.disabled]="true" formControlName="referenceDesignation">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Company</label>
+                          <input type="text" class="form-control" [attr.disabled]="true" formControlName="referenceCompanyName">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Phone Number</label>
+                          <input type="text" class="form-control" [attr.disabled]="true" formControlName="referencePhoneNumber">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Email</label>
+                          <input type="email" class="form-control" [attr.disabled]="true" formControlName="referemceEmail">
+                        </div>
+                        <div class="form-group">
+                          <label for="">Relation</label>
+                          <input type="text" class="form-control" [attr.disabled]="true" formControlName="referenceRelation">
+                        </div>
+                        <hr>
+                      </div>
+                    </div>
+                </form>
+              </div>
+
+              <div class="row" class="joinee_info">
+                <form
+                  [formGroup]="joineeCandidateProfessionalReferenceDetails"
+                  #myForm="ngForm"
+                  enctype="application/x-www-form-urlencoded"
+                >
+                <div class="col-md-12">
+                  <h3 class="text-dark">Professional Reference Information</h3>
+                </div>
+
+                <div class="col-md-12" formArrayName="professionalRefercenceDetails">
+                  <div *ngFor="let referenceDet of joineeCandidateProfessionalReferenceDetails.controls.professionalRefercenceDetails['controls']; let i = index" [formGroupName]="i">
+                    <div class="form-group">
+                      <label for="">Name</label>
+                      <input type="text" class="form-control" [attr.disabled]="true" formControlName="professionalReferenceName">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Designation</label>
+                      <input type="text" class="form-control" [attr.disabled]="true" formControlName="professionalReferenceDesignation">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Company</label>
+                      <input type="text" class="form-control" [attr.disabled]="true" formControlName="professionalReferenceCompanyName">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Phone Number</label>
+                      <input type="text" class="form-control" [attr.disabled]="true" formControlName="professionalReferencePhoneNumber">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Email</label>
+                      <input type="email" class="form-control" [attr.disabled]="true" formControlName="professionalReferenceEmail">
+                    </div>
+                    <div class="form-group">
+                      <label for="">Relation</label>
+                      <input type="text" class="form-control" [attr.disabled]="true" formControlName="professionalReferenceRelation">
+                    </div>
+                    <hr>
+                  </div>
+                </div>
+
+                </form>
+              </div>
+
+              <div class="row" class="joinee_info">
+                <form
+                  [formGroup]="joineeCandidatePreviousCompany"
+                  #myForm="ngForm"
+                  enctype="application/x-www-form-urlencoded"
+                >
+                  <div class="col-md-12">
+                    <h3 class="text-dark">Previous Company Information</h3>
+                  </div>
+
+                  <div class="col-md-12" formArrayName="companyInformation">
+                    <table class="table table-bordered table-colored" *ngFor="let cmpnyDet of joineeCandidatePreviousCompany.controls.companyInformation['controls']; let i = index" [formGroupName]="i">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Name</th>
+                          <th>Designation</th>
+                          <th>Phone Number</th>
+                          <th>Email</th>
+                        </tr>
+                      </thead>
+                      <tbody class="ng-untouched ng-pristine ng-valid">
+                        <tr>
+                          <td><label for="">HR</label></td>
+                          <td><input type="text" class="form-control" [attr.disabled]="true" formControlName="hrName"></td>
+                          <td><input type="text" class="form-control" [attr.disabled]="true" formControlName="hrDesignation"></td>
+                          <td><input type="text" class="form-control" [attr.disabled]="true" formControlName="hrPhoneNumber"></td>
+                          <td><input type="text" class="form-control" [attr.disabled]="true" formControlName="hrEmail"></td>
+                          
+                        </tr>
+                        <tr>
+                          <td><label for="">Report Authoriy</label></td>
+                          <td><input type="text" class="form-control" [attr.disabled]="true" formControlName="reportingAuthorityName"></td>
+                          <td><input type="text" class="form-control" [attr.disabled]="true" formControlName="reportingAuthorityDesination"></td>
+                          <td><input type="text" class="form-control" [attr.disabled]="true" formControlName="reportingAuthorityPhoneNumber"></td>
+                          <td><input type="text" class="form-control" [attr.disabled]="true" formControlName="reportingAuthorityEmail"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </form>
+              </div>
+
+              <div class="row" class="joinee_info">
+                <form 
+                  [formGroup]="uploadDocuments"
+                  #myForm="ngForm"
+                  enctype="application/x-www-form-urlencoded"
+                > 
+                  <div class="col-md-12">
+                    <h3 class="text-dark">Upload Documents</h3>
+                  </div>
+                  <div class="col-md-12"> 
+                    <div class="form-group row custom-file">
+                      <div class="col-sm-3">
+                        <label for="">Photo</label>
+                      <br>
+                         <input type="text" [attr.disabled]="true" formControlName="photo" [value]="photoName">
+                      </div>
+                      <div class="form-group col-sm-3 custom-file" *ngIf="photoReason !== null">
+                       <label>Reason</label>
+                       <br>
+                       <textarea cols="30" rows="5" [attr.disabled]="true" >{{photoReason}}</textarea>
+                     </div>
+                      <div class="col-sm-2">
+                        <label for=""class="hide-label">upload</label>
+                        <br>
+                        <button
+                      type="button"
+                      class="btn btn-info download-btn"
+                      *ngIf="photoName !== 'No file'"
+                      (click)="downloadCandidateDocs(photoId)"
+              >
+                      <i class="fa fa-download"></i>
+                       </button>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group row custom-file">
+                      <div class="col-sm-3">
+                        <label for="">Aadhar Card:</label>
+                      <br>
+                      <input type="text" [attr.disabled]="true" formControlName="aadhar_card" [value]="aadhar">
+                      </div>
+                      <div class="form-group col-sm-3 custom-file" *ngIf="aadharReason !== null">
+                        <label>Reason</label>
+                        <br>
+                        <textarea cols="30" rows="5" [attr.disabled]="true" >{{aadharReason}}</textarea>
+                      </div>
+                      <div class="col-sm-2">
+                        <label for=""class="hide-label">upload</label>
+                        <br>
+                        <button
+                        type="button"
+                        class="btn btn-info download-btn"
+                        *ngIf="aadhar !== 'No file'"
+                        (click)="downloadCandidateDocs(aadharId)"
+                        >
+                        <i class="fa fa-download"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group row custom-file">
+                      <div class="col-sm-3">
+                        <label for="">Pan Card:</label>
+                      <br>
+                      <input type="text" [attr.disabled]="true" formControlName="pan_card" [value]="pancard">
+                      </div>
+                      <div class="form-group col-sm-3 custom-file" *ngIf="pancardReason !== null">
+                        <label>Reason</label>
+                        <br>
+                        <textarea cols="30" rows="5" [attr.disabled]="true" >{{pancardReason}}</textarea>
+                      </div>
+                      <div class="col-sm-2">
+                        <label for=""class="hide-label">upload</label>
+                        <br>
+                        <button
+                        type="button"
+                        class="btn btn-info download-btn"
+                        *ngIf="pancard !== 'No file'"
+                        (click)="downloadCandidateDocs(pancardId)"
+                      >
+                              <i class="fa fa-download"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group row custom-file">
+                      <div class="col-sm-3">
+                        <label for="">Passport:</label>
+                      <br>
+                      <input type="text" [attr.disabled]="true" formControlName="passport" [value]="passport">
+                      </div>
+                      
+                    <div class="form-group col-sm-3 custom-file" *ngIf="passportReason !== null">
+                      <label>Reason</label>
+                      <br>
+                      <textarea cols="30" rows="5" [attr.disabled]="true" >{{passportReason}}</textarea>
+                    </div>
+                    <div class="col-sm-2">
+                      <label for=""class="hide-label">upload</label>
+                      <br>
+                      <button
+                              type="button"
+                              class="btn btn-info download-btn"
+                              *ngIf="passport !== 'No file'"
+                              (click)="downloadCandidateDocs(passportId)"
+                              >
+                              <i class="fa fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group row custom-file">
+                    <div class="col-sm-3">
+                      <label for="">Form 16:</label>
+                      <br>
+                      <input type="text" [attr.disabled]="true" formControlName="form_16" [value]="form_16">
+                    </div>
+                    <div class="form-group col-sm-3 custom-file" *ngIf="form_16Reason !== null">
+                      <label>Reason</label>
+                      <br>
+                      <textarea cols="30" rows="5" [attr.disabled]="true">{{form_16Reason}}</textarea>
+                    </div>
+                    <div class="col-sm-2">
+                      <label for=""class="hide-label">upload</label>
+                      <br>
+                      <button
+                      type="button"
+                      class="btn btn-info download-btn"
+                      *ngIf="form_16 !== 'No file'"
+                      (click)="downloadCandidateDocs(form_16Id)"
+                      >
+                      <i class="fa fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group row payslip-design custom-file payslip-btn">
+                    <div [ngClass]="{'col-sm-3':payslipReason !== null, 'col-sm-12':payslipReason == null}">
+                      <label for="">Payslips</label>
+                      <div class="form-group custom-file" *ngIf="1 > this.payslipArr.length; else payslip">
+                        <input type="text" value="No file">
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-3 custom-file" *ngIf="payslipReason !== null">
+                      <label>Reason</label>
+                      <br>
+                      <textarea cols="30" rows="5" [attr.disabled]="true">{{payslipReason}}</textarea>
+                    </div>
+                    <ng-template #payslip>
+                      <div *ngFor="let payslip of payslipArr; let i = index ">
+                        <div class="form-group custom-file" *ngFor="let pays of payslip; let j = index ">
+                          <input type="text" [attr.disabled]="true" [value]="pays['file_name']">
+                          <button type="button" class="btn btn-info download-btn" (click)="downloadCandidateDocs(pays['id'])">
+                            <i class="fa fa-download"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group row payslip-design custom-file payslip-btn">
+                    <div [ngClass]="{'col-sm-3':salary_certReason !== null, 'col-sm-12':salary_certReason == null}">
+                      <label for="">Salary Certificate</label>
+                      <div class="form-group custom-file" *ngIf="1 > this.salary_certificate.length; else salaryCertificate">
+                        <input type="text" value="No file">
+                      </div>
+                    </div>
+                    <div class="form-group custom-file" *ngIf="salary_certReason !== null">
+                      <label>Reason</label>
+                      <br>
+                      <textarea cols="30" rows="5" [attr.disabled]="true">{{salary_certReason}}</textarea>
+                    </div>
+                    <ng-template #salaryCertificate>
+                      <div *ngFor="let salaryCet of salary_certificate; let i = index">                      
+                        <div class="form-group custom-file" *ngFor="let salary of salaryCet;let j = index">
+                          <input type="text" [attr.disabled]="true" [value]="salary['file_name']">
+                          <button
+                            type="button"
+                            class="btn btn-info download-btn"
+                            (click)="downloadCandidateDocs(salary['id'])"
+                          >
+                            <i class="fa fa-download"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </ng-template> 
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group row payslip-design custom-file payslip-btn">
+                    <div [ngClass]="{'col-sm-3':experienceReason !== null, 'col-sm-12':experienceReason == null}">
+                      <label for="">Previous Company Experience Letter</label>
+                      <div class="form-group custom-file" *ngIf="1 > this.experienceArr.length; else experience">
+                        <input type="text" value="No file">
+                      </div>
+                    </div>
+                    <div class="form-group custom-file" *ngIf="experienceReason !== null">
+                      <label>Reason</label>
+                      <br>
+                      <textarea cols="30" rows="5" [attr.disabled]="true">{{experienceReason}}</textarea>
+                    </div>
+                    <ng-template #experience>
+                      <div *ngFor="let experience of experienceArr;let i = index">
+                        <div class="form-group custom-file" *ngFor="let exp of experience;let j = index">
+                          <input type="text" [attr.disabled]="true" [value]="exp['file_name']">
+                          <button
+                            type="button"
+                            class="btn btn-info download-btn"
+                            (click)="downloadCandidateDocs(exp['id'])"
+                          >
+                            <i class="fa fa-download"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group row payslip-design custom-file payslip-btn">
+                    <div [ngClass]="{'col-sm-3':relieveReason !== null, 'col-sm-12':relieveReason == null}">
+                      <label for="">Previous Company Relieving Letter</label>
+                      <div class="form-group custom-file" *ngIf="1 > this.relieveArr.length; else relieve">
+                        <input type="text" value="No file">
+                      </div>
+                    </div>
+                    <div class="form-group custom-file" *ngIf="relieveReason !== null">
+                      <label>Reason</label>
+                      <br>
+                      <textarea cols="30" rows="5" [attr.disabled]="true">{{relieveReason}}</textarea>
+                    </div>
+                    <ng-template #relieve>
+                      <div *ngFor="let relieve of relieveArr;let i = index">
+                        <div class="form-group custom-file" *ngFor="let rel of relieve;let j = index">
+                          <input type="text" [attr.disabled]="true" [value]="rel['file_name']">
+                          <button
+                            type="button"
+                            class="btn btn-info download-btn"
+                            (click)="downloadCandidateDocs(rel['id'])"
+                          >
+                            <i class="fa fa-download"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group row payslip-design custom-file payslip-btn">
+                    <div [ngClass]="{'col-sm-3':offerReason !== null, 'col-sm-12':offerReason == null}">
+                      <label for="">Previous Company Offer Letter</label>
+                      <div class="form-group custom-file" *ngIf="1 > this.offerArr.length; else offer">
+                        <input type="text" value="No file">
+                      </div>
+                    </div>
+                    <div class="form-group custom-file"  *ngIf="offerReason !== null">
+                      <label>Reason</label>
+                      <br>
+                      <textarea cols="30" rows="5" [attr.disabled]="true">{{offerReason}}</textarea>
+                    </div>
+                    <ng-template #offer>
+                      <div *ngFor="let offer of offerArr;let i = index">
+                        <div class="form-group custom-file" *ngFor="let off of offer;let j = index">
+                          <input type="text" [attr.disabled]="true" [value]="off['file_name']">
+                          <button
+                            type="button"
+                            class="btn btn-info download-btn"
+                            (click)="downloadCandidateDocs(off['id'])"
+                          >
+                            <i class="fa fa-download"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+                </form>
+              </div>
+              <div class="row">
+              </div>
+            </mk-tab>
+          </mk-tabs>
+        </div>
+      </div>
+    </div>
+  
+  </mk-box-content>
+</mk-box>
+

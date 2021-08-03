@@ -1,0 +1,44 @@
+
+
+ <div class="row">
+  <!-- <div class="col-md-3 col-xs-12">
+    <mk-box-small header="150" backgroundColor="aqua" iconStyleClass="fa fa-shopping-cart">
+      <mk-box-small-content>41,410</mk-box-small-content>
+      <mk-box-small-footer>
+        <a routerLink="/">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </mk-box-small-footer>
+    </mk-box-small>
+  </div> -->
+  <div class="col-md-4 col-xs-12">
+    <mk-box-small header="53%" backgroundColor="green" iconStyleClass="ion ion-stats-bars">
+      <mk-box-small-content>Bounce Rate</mk-box-small-content>
+      <mk-box-small-footer>
+        <a routerLink="/">More info <i class="fa fa-info-circle"></i></a>
+      </mk-box-small-footer>
+    </mk-box-small>
+  </div>
+  <div class="col-md-4 col-xs-12">
+    <mk-box-small header="{{candidatesCount}}" backgroundColor="yellow" iconStyleClass="ion ion-person-add">
+      <mk-box-small-content>Upcomming Joinees</mk-box-small-content>
+      <mk-box-small-footer>
+        <a routerLink="/upcomming-joinee">More info <i class="fa fa-info-circle"></i></a>
+      </mk-box-small-footer>
+    </mk-box-small>
+  </div>
+  <div class="col-md-4 col-xs-12">
+    <mk-box-small header="65" backgroundColor="red" iconStyleClass="ion ion-pie-graph">
+      <mk-box-small-content>Unique Visitors</mk-box-small-content>
+      <mk-box-small-footer>
+        <a routerLink="/">More info <i class="fa fa-info-circle"></i></a>
+      </mk-box-small-footer>
+    </mk-box-small>
+  </div>
+</div>
+
+<highcharts-chart 
+  [Highcharts]="Highcharts"
+
+  [options]="chartOptions"
+
+  style="width: 100%; height: 400px; display: block;"
+></highcharts-chart>

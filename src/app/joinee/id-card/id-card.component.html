@@ -1,0 +1,34 @@
+<form [formGroup]="IdCard" class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="name">Name:</label>
+        <div class="col-sm-6">
+            <input type="name" class="form-control" id="name" placeholder="Name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="address">Address:</label>
+        <div class="col-sm-6">
+            <textarea name="address" id="" cols="30" rows="2" class="form-control">
+
+            </textarea>
+        </div>
+    </div>
+    <div class="form-group">
+            <label class="control-label col-sm-4" for="address">Blood Group:</label>
+            <div class="col-sm-6">
+                <ng-select [searchable]="true" class="custom" [clearable]="false"
+                 labelForId="department" formControlName="bloodGroup">
+                        <ng-option *ngFor="let group of bloodGroupList" [value]=group.id>
+                            {{ group.name }}
+                        </ng-option>                      
+                </ng-select> 
+            </div>
+    </div>
+    <div class="form-group">
+            <label class="control-label col-sm-4" for="photograph">Photograph:</label>
+            <div class="col-sm-6">
+                <input type="file" class="form-control" id="photograph" placeholder="Photograph">
+            </div>
+    </div>
+        
+</form>

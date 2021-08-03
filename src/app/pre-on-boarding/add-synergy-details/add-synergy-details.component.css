@@ -1,0 +1,35 @@
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+.form-error-text {
+    color: red;
+}
+.radioBtn input {
+  margin: 15px 0px 0px 0px;
+}
+.radioBtn label {
+  margin: 0px 20px 0px 3px;
+}
+label span{
+  color: red;
+}
+.padd-20{
+  padding: 20px;
+}
+.form-border{
+  border: 2px solid black;
+  padding: 20px;
+  position: relative;
+  margin: 7px;
+}
+.form-border h3{
+  padding: 0px 10px;
+  background: #ecf0f5;
+  display: inline-block;
+  position: absolute;
+  top: -35px
+}
+.same-address{
+  margin-top: 25px;
+  margin-bottom: 30px;
+}

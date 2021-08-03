@@ -1,0 +1,58 @@
+<div>
+    <mk-alert
+        [callout]="true"
+        backgroundColor="danger"
+        *ngIf="deleteUserRoleMessage"
+    >
+        <h5>
+        <i class="icon fa fa-check"></i>
+        User Role has been deleted!
+        </h5>
+    </mk-alert>
+</div>
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-inline-block">
+                <h3 class="card-title"><i class="fa fa-list"></i>&nbsp; User Roles</h3>
+            </div>
+            <div class="d-inline-block float-right">
+                <button class="btn btn-success" (click)="onAddUser()"><i class="fa fa-plus"></i> Add New</button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Designation</th>
+                        <th width="200">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of designations; let i = index;">
+                        <td>{{i+1}}</td>
+                        <td>{{ data.designation_name}}</td>
+                        <td>
+                            <button
+                                type="button"
+                                class="btn btn-warning btn-xs mr5 edit"
+                                (click)="userEdit(data)"
+                                >
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <!-- <button
+                                type="button"
+                                class="btn btn-danger btn-xs mr5"
+                                (click)="OnDeleteUser(data.id)"
+                                >
+                                <i class="fa fa-remove"></i>
+                            </button>  -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

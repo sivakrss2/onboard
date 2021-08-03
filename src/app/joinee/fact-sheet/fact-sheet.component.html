@@ -1,0 +1,676 @@
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="factSheet">
+      <form [formGroup]="factSheet">
+        <ng-template matStepLabel>Personal Details</ng-template>
+        
+        <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group"
+          [ngClass]="{'has-error': factSheetFormError.positionApplied }" >
+            <label for="positionApplied">Position Applied For:</label>                        
+            <input type="text" formControlName="positionApplied" 
+            class="form-control" id="positionApplied"
+            (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+            placeholder="Position Applied For">  
+            <span class="help-block" *ngIf="factSheetFormError.positionApplied">
+                {{factSheetFormError.positionApplied}}
+            </span>                      
+           </div>  
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group"
+          [ngClass]="{'has-error': factSheetFormError.name}" >
+            <label for="name">Name:</label>                            
+            <input type="text" formControlName="name" class="form-control" id="name" 
+            (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+            placeholder="Name"> 
+            <span class="help-block" *ngIf="factSheetFormError.name">
+                {{factSheetFormError.name}}
+            </span>                             
+          </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group"
+                    [ngClass]="{'has-error': factSheetFormError.age}" >
+                <label for="age">Age:</label>                                  
+                  <input type="number" formControlName="age" class="form-control" id="age"
+                  (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+                   placeholder="">   
+                <span class="help-block" *ngIf="factSheetFormError.age">
+                {{factSheetFormError.age}}
+                </span>                                 
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group"
+            [ngClass]="{'has-error': factSheetFormError.dateOfBirth}" >
+              <label for="age">Date Of Birth:</label>                           
+              <input type="text" bsDatepicker  formControlName="dateOfBirth" 
+              class="form-control pull-right"  
+              (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+              readonly #dob="bsDatepicker"
+              [bsConfig]="{containerClass:'theme-dark-blue'}"
+              >   
+              <span class="help-block" *ngIf="factSheetFormError.dateOfBirth">
+                  {{factSheetFormError.dateOfBirth}}
+              </span>                          
+          </div>
+        </div>                           
+      </div> 
+      <div class="row">
+          <div class="col-sm-6">
+              <!-- <div class="form-group"
+              [ngClass]="{'has-error': factSheetFormError.state}" >
+                <label for="age">State:</label>                           
+                <input type="text" formControlName="state" 
+                class="form-control"  
+                (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+               >   
+                <span class="help-block" *ngIf="factSheetFormError.state">
+                    {{factSheetFormError.state}}
+                </span>                          
+            </div> -->
+            <div class="form-group" [ngClass]="{'has-error': factSheetFormError.state}">
+              <label for="state">State:</label>
+              <ng-select [searchable]="true" class="custom"  [clearable]="false"
+              labelForId="state" formControlName="state" (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)>
+                <ng-option *ngFor="let data of state" [value]=data.id>
+                  {{ data.state }}
+                </ng-option>
+            </ng-select>
+            <span class="help-block" *ngIf="factSheetFormError.state">
+              {{factSheetFormError.state}}
+          </span>   
+          </div>
+          </div>
+          <div class="col-sm-6">
+              <!-- <div class="form-group"
+              [ngClass]="{'has-error': factSheetFormError.town}" >
+                <label for="age">Town:</label>                           
+                <input type="text" formControlName="town" 
+                class="form-control"  
+                (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+               >   
+                <span class="help-block" *ngIf="factSheetFormError.town">
+                    {{factSheetFormError.town}}
+                </span>                          
+            </div> -->
+            <div class="form-group" [ngClass]="{'has-error': factSheetFormError.town}">
+              <label for="town">Town:</label>
+              <ng-select [searchable]="true" class="custom"  [clearable]="false" 
+              labelForId="town" formControlName="town" (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)>
+                <ng-option *ngFor="let data of town" [value]=data.id>
+                  {{ data.town }}
+                </ng-option>
+            </ng-select>
+            <span class="help-block" *ngIf="factSheetFormError.town">
+              {{factSheetFormError.town}}
+          </span>   
+          </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group"
+              [ngClass]="{'has-error': factSheetFormError.fatherName}" >
+                <label for="age">Father's Names:</label>                           
+                <input type="text" formControlName="fatherName" 
+                class="form-control"  
+                (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+               >   
+                <span class="help-block" *ngIf="factSheetFormError.fatherName">
+                    {{factSheetFormError.fatherName}}
+                </span>                          
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group"
+            [ngClass]="{'has-error': factSheetFormError.fatherOccupation}" >
+              <label for="age">Father's Occupation:</label>                           
+              <input type="text" formControlName="fatherOccupation" 
+              class="form-control"  
+              (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+             >   
+              <span class="help-block" *ngIf="factSheetFormError.fatherOccupation">
+                  {{factSheetFormError.fatherOccupation}}
+              </span>                          
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+                <label for="age">Phone number:</label>                           
+                <input type="number" formControlName="Phone" 
+                class="form-control">                           
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group"
+            [ngClass]="{'has-error': factSheetFormError.candidate_mobile}" >
+              <label for="age">Mobile Number</label>                           
+              <input type="number" formControlName="candidate_mobile" 
+              class="form-control"  
+              (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+             >   
+              <span class="help-block" *ngIf="factSheetFormError.candidate_mobile">
+                  {{factSheetFormError.candidate_mobile}}
+              </span>                          
+          </div>
+        </div>
+          <div class="col-sm-6">
+            <div class="form-group"
+            [ngClass]="{'has-error': factSheetFormError.candidate_email}" >
+              <label for="">Email ID</label>
+              <input type="text"
+              formControlName="candidate_email"
+              class="form-control"
+              (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+              placeholder="Email ID">
+              <span class="help-block" *ngIf="factSheetFormError.candidate_email">
+                {{factSheetFormError.candidate_email}}
+            </span>
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group"
+            [ngClass]="{'has-error': factSheetFormError.maritalStatus}" >
+              <label for="">Marital Status: </label>                      
+              <label class="radio-inline"><input type="radio" name="maritalStatus" (click)="open()" value="Married" formControlName="maritalStatus" > Married</label>
+              <label class="radio-inline"><input type="radio" name="maritalStatus" (click)="close()" value="UnMarried" formControlName="maritalStatus" > Unmarried</label>                              
+              <span class="help-block" *ngIf="factSheetFormError.maritalStatus">
+                  {{factSheetFormError.maritalStatus}}
+              </span>                          
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isShown">
+      <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group"
+            [ngClass]="" >
+              <label for="">Spouse Name </label>                           
+              <input type="text" formControlName="spouseName" 
+              class="form-control">   
+              <span class="help-block" *ngIf="factSheetFormError.town">
+                  {{factSheetFormError.town}}
+              </span>                 
+          </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="form-group"
+            [ngClass]="" >
+              <label for="">Spouse Occupation </label>                           
+              <input type="text" formControlName="spouseOccupation" 
+              class="form-control">   
+              <span class="help-block" *ngIf="factSheetFormError.town">
+                  {{factSheetFormError.town}}
+              </span>                 
+          </div>
+        </div>
+        </div>
+      </div>                      
+      <div class="row">
+          <div class="col-sm-4">
+              <div class="form-group"
+              [ngClass]="{'has-error': factSheetFormError.religion}" >
+                <label for="">Religion: </label>                           
+                <input type="text" formControlName="religion" 
+                class="form-control"
+                (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)
+                >   
+                <span class="help-block" *ngIf="factSheetFormError.religion">
+                    {{factSheetFormError.religion}}
+                </span>                 
+            </div>
+          </div>
+          <div class="col-sm-8">
+              <div class="form-group"
+              [ngClass]="{'has-error': factSheetFormError.address}" >
+                <label for="">Address </label>                           
+                <input type="text" formControlName="address" 
+                class="form-control"
+                (blur)=logValidationErrors(factSheet,factSheetFormError,factSheetValidationMessages)>   
+                <span class="help-block" *ngIf="factSheetFormError.address">
+                    {{factSheetFormError.address}}
+                </span>                 
+            </div>
+          </div>
+        </div>                      
+         
+        <div class="row">
+            <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">Language Known:</label>                                                                    
+                        <button [disabled]="factSheet.get('languageKnown').invalid"  type="button" class="btn btn-primary" (click)="onAddLanguageKnown()">
+                          Add
+                         </button>
+                      </div>                           
+            </div>  
+                                
+            <div class="col-sm-6" formArrayName="languageKnown"
+                         *ngFor="let language of languageKnown['controls']; let i = index">
+                      <div [formGroupName]="i">                            
+                                  <div class="form-group" [ngClass]="{'has-error': language.get('languageName').invalid && language.get('languageName').touched}">                                                      
+                                    <label class="control-label col-sm-3"  attr.for="{{'languageName'+i}}">Language :</label>                                                       
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="{{'languageName'+i}}"
+                                    formControlName="languageName" 
+                                    placeholder="" class="form-control" > 
+                                    <span class="help-text form-error" *ngIf="language.get('languageName').invalid && language.get('languageName').touched">
+                                    Language is required
+                                    </span>
+                                    </div>                                                      
+                                    <div class="col-sm-1 remove-language" *ngIf="i>0"   >
+                                      <button (click)="onRemoveLanguage(i)" class="btn btn-danger btn-sm"><i class="fa fa-close"  style="font-size:20px;"></i></button> 
+                                      
+                                      </div>
+                                    
+                                  </div>
+                      </div> 
+            </div>                              
+    </div>         
+      <div class="row">
+          <div class="col-sm-12">                             
+              <button mat-button matStepperNext class="but-primary" >Next</button>
+            </div>
+      </div>                         
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="siblingDetail">
+      <form [formGroup]="siblingDetail">
+        <ng-template matStepLabel>Sibling Details</ng-template>
+        <div class="row tb-row">
+          <div class="com-sm-1">
+            <button class="btn btn-sm btn-primary" (click)="onAddSibling()" >Add Sibling</button>
+          </div>
+        </div>                         
+            <div class="row tb-row">
+              <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th>Sibling's Name</th>
+                    <th>Course / Designation (if working)</th>
+                    <th>Educational Institute / Company Name</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="siblings"
+                *ngFor="let sibling of siblings['controls']; let i = index">
+                  <tr [formGroupName]="i" >
+                    <td><input type="text" class="form-control"
+                      formControlName="siblingName" 
+                      placeholder="" class="form-control" >
+                    </td>
+                    <td><input type="text" class="form-control"
+                      formControlName="courseDesignation" 
+                      placeholder="" class="form-control" >
+                    </td>                                      
+                    <td><input type="text" class="form-control"
+                      formControlName="instituteName" 
+                      placeholder="" class="form-control" >
+                    </td>
+                    <td> 
+                      <button class="btn btn-sm btn-danger btn-sm" (click)="onRemoveSibling(i)" ><i class="fa fa-close"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>                                
+            </div>                          
+        <div class="row">
+          <div class="col-sm-12">
+              <button mat-button matStepperPrevious class="but-primary">Back</button>
+              <button mat-button matStepperNext class="but-primary">Next</button>
+          </div>                            
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="educationalQualification">
+      <form [formGroup]="educationalQualification">
+        <ng-template matStepLabel>Educational Qualification</ng-template>
+        <div class="row tb-row">
+          <div class="com-sm-1">
+            <button class="btn btn-sm btn-primary" (click)="onAddEducationalDetails()" [disabled]="educationalDetails.invalid">Add Educational Qualification</button>
+          </div>
+        </div>
+        <div class="row tb-row">
+          <div style="overflow: auto">
+              <table class="table table-borderless">
+                  <thead>
+                    <tr>
+                        <th class="year-column">Year From</th>
+                        <th class="year-column">Year To</th>
+                        <th>Examination Passed </th>
+                        <th> Course </th>
+                        <th>Name of School / College University</th>
+                        <th>Medium of Instruction</th>
+                        <th>% of Marks</th>
+                        <th class="year-column">Total No.of arrears</th>
+                        <th class="year-column">Class Obtained</th>
+                        <th></th>
+                    </tr>
+                  </thead>
+                  <tbody formArrayName="educationalDetails"
+                  *ngFor="let education of educationalDetails['controls']; let i = index"
+                  >
+                    <tr [formGroupName]="i" >                                     
+                        <td class="year-column"><div [ngClass]="{'has-error': education.get('yearFrom').invalid && education.get('yearFrom').touched}">
+                          <input  type="text" class="form-control" formControlName="yearFrom">
+                          <span class="help-text form-error" *ngIf="education.get('yearFrom').invalid && education.get('yearFrom').touched">
+                            yearFrom is required
+                            </span>
+                        </div>
+                      </td> 
+                        <td class="year-column"><div [ngClass]="{'has-error': education.get('yearTo').invalid && education.get('yearTo').touched}">
+                          <input type="text" class="form-control" formControlName="yearTo">
+                          <span class="help-text form-error" *ngIf="education.get('yearTo').invalid && education.get('yearTo').touched">
+                            yearTo is required
+                            </span>
+                        </div>
+                      </td>
+                        <td><div [ngClass]="{'has-error': education.get('examinationPassed').invalid && education.get('examinationPassed').touched}">
+                          <input type="text" class="form-control" formControlName="examinationPassed">
+                          <span class="help-text form-error" *ngIf="education.get('examinationPassed').invalid && education.get('examinationPassed').touched">
+                            examinationPassed is required
+                            </span>
+                        </div>
+                      </td>
+                        <td><div [ngClass]="{'has-error': education.get('course').invalid && education.get('course').touched}">
+                          <input type="text" class="form-control" formControlName="course">
+                          <span class="help-text form-error" *ngIf="education.get('course').invalid && education.get('course').touched">
+                            course is required
+                            </span>
+                        </div>
+                      </td>
+                        <td><div [ngClass]="{'has-error': education.get('schoolCollege').invalid && education.get('schoolCollege').touched}">
+                          <input type="text" class="form-control" formControlName="schoolCollege">
+                          <span class="help-text form-error" *ngIf="education.get('schoolCollege').invalid && education.get('schoolCollege').touched">
+                            schoolCollege is required
+                            </span>
+                        </div>
+                      </td>
+                        <td><div [ngClass]="{'has-error': education.get('mediumOfInstruction').invalid && education.get('mediumOfInstruction').touched}">
+                          <input type="text" class="form-control" formControlName="mediumOfInstruction">
+                          <span class="help-text form-error" *ngIf="education.get('mediumOfInstruction').invalid && education.get('mediumOfInstruction').touched">
+                            mediumOfInstruction is required
+                            </span>
+                        </div>
+                      </td>
+                        <td class="year-column"><div [ngClass]="{'has-error': education.get('markPercentage').invalid && education.get('markPercentage').touched}">
+                          <input type="text" class="form-control" formControlName="markPercentage">
+                          <span class="help-text form-error" *ngIf="education.get('markPercentage').invalid && education.get('markPercentage').touched">
+                            markPercentage is required
+                            </span>
+                        </div>
+                      </td>
+                        <td class="year-column"><div [ngClass]="{'has-error': education.get('arrears').invalid && education.get('arrears').touched}">
+                          <input type="text" class="form-control" formControlName="arrears">
+                          <span class="help-text form-error" *ngIf="education.get('arrears').invalid && education.get('arrears').touched">
+                            arrears is required
+                            </span>
+                        </div>
+                      </td>
+                        <td class="year-column"><div [ngClass]="{'has-error': education.get('classObtained').invalid && education.get('classObtained').touched}">
+                          <input type="text" class="form-control" formControlName="classObtained">
+                          <span class="help-text form-error" *ngIf="education.get('classObtained').invalid && education.get('classObtained').touched">
+                            classObtained is required
+                            </span>
+                        </div>
+                        </td>
+                        <td> 
+                            <button class="btn btn-sm btn-danger btn-sm" (click)="onRemoveEducationalDetails(i)" ><i class="fa fa-close"></i></button>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="col-sm-6">
+                      <div class="form-group"
+                      [ngClass]="{'has-error': educationalQualificationFormError.maths_10}" >
+                        <label for="">Percentage of Mathematics Marks in (a) 10 th</label>                           
+                        <input type="text" formControlName="maths_10" 
+                        class="form-control" (blur)=logValidationErrors(educationalQualification,educationalQualificationFormError,educationalQualificationValidationMessages)>   
+                        <span class="help-block" *ngIf="educationalQualificationFormError.maths_10">
+                            {{educationalQualificationFormError.maths_10}}
+                        </span>                 
+                    </div>
+                  </div>  
+                  <div class="col-sm-6">
+                      <div class="form-group"
+                      [ngClass]="{'has-error': educationalQualificationFormError.maths_12}" >
+                        <label for="">Percentage of Mathematics Marks in (b) 12 th</label>                           
+                        <input type="text" formControlName="maths_12" 
+                        class="form-control" (blur)=logValidationErrors(educationalQualification,educationalQualificationFormError,educationalQualificationValidationMessages)>   
+                        <span class="help-block" *ngIf="educationalQualificationFormError.maths_12">
+                          {{educationalQualificationFormError.maths_12}}
+                        </span>                 
+                    </div>
+                  </div> 
+          </div>                              
+        </div>                          
+        <div class="row tb-row">
+          <button mat-button matStepperPrevious class="but-primary">Back</button>
+          <button mat-button matStepperNext class="but-primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="professionalCertifications">
+      <form [formGroup]="professionalCertifications">
+        <ng-template matStepLabel>Professional Certifications</ng-template>
+        <div class="row tb-row">
+          <div class="com-sm-1">
+            <button class="btn btn-sm btn-primary" (click)="onAddaddProfessionalCertifications()" [disabled]="">Add Professional Certifications</button>
+          </div>
+        </div>
+        <div class="row tb-row">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th class="s-no">S.No</th>
+                <th>Name of the Certification</th>
+                <th>Year of Completion</th>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody
+            formArrayName="certificationDetails"
+            *ngFor="let certification of certificationDetails['controls']; let i = index"
+            >
+            <tr [formGroupName]="i">
+              <td class="s-no">{{i+1}}</td>
+              <td><input type="text" class="form-control" formControlName="certificationName" ></td>
+              <td><input type="text" class="form-control" formControlName="yearOfCompletion" ></td>
+              <td> <button class="btn btn-sm btn-danger btn-sm" (click)="onRemoveCertificationDetails(i)" ><i class="fa fa-close"></i></button></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <button class="but-primary" mat-button matStepperPrevious>Back</button>
+          <button class="but-primary" mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="rateYourKnowledge">
+      <form [formGroup]="rateYourKnowledge">
+        <ng-template matStepLabel>Rate your knowledge in the following</ng-template>
+        <div class="row tb-row">
+            <div class="com-sm-1">
+              <button class="btn btn-sm btn-primary" (click)="onAddRateYourKnowledge()" >Add</button>
+            </div>
+          </div>
+        <div class="row tb-row">
+          <table class="table table-borderless">
+            <thead>
+               <tr>
+                <th class="td-align-middle" rowspan="2">S.No</th>
+                <th class="td-align-middle" rowspan="2">Subject / Expertise in Software</th>
+                <th class="text-center" colspan=4>Proficiency Ratings</th>   
+                <th></th>                               
+               </tr>
+               <tr>
+                <th class="text-center">Fair</th>
+                <th class="text-center">Good</th>
+                <th class="text-center">V.Good</th>
+                <th class="text-center">Excellent</th>
+                <th></th>       
+               </tr>
+            </thead>
+            <tbody  formArrayName="knowledgeDetails"  
+            *ngFor="let knowledge of knowledgeDetails['controls']; let i = index"                          
+            >
+            <tr [formGroupName]=i>
+              <td>{{i+1}}</td>
+              <td><input type="text" class="form-control" formControlName="subject"></td>
+              <td class="text-center"><input type="radio" id="rating_{{i}}" value="fair" formControlName="rating" ></td>
+              <td class="text-center"><input type="radio" id="rating_{{i}}" value="good" formControlName="rating" ></td>
+              <td class="text-center"><input type="radio" id="rating_{{i}}" value="v.good" formControlName="rating" ></td>
+              <td class="text-center"><input type="radio" id="rating_{{i}}" value="excellent" formControlName="rating" ></td>
+              <td class="text-center"> <button class="btn btn-sm btn-danger btn-sm" (click)="onRemoveRateYourKnowledge(i)" ><i class="fa fa-close"></i></button></td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+        <div class="row tb-rpw">
+          <button class="but-primary" mat-button matStepperPrevious>Back</button>
+          <button class="but-primary" mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="workExperience">
+        <form [formGroup]="workExperience">
+          <ng-template matStepLabel>Work Experience (Descending Order)</ng-template>
+          <div class="row tb-row">
+            <div class="com-sm-1">
+              <button class="btn btn-sm btn-primary" (click)="onAddWorkExperience()" >Add Work Experience</button>
+            </div>
+          </div>                         
+              <div class="row tb-row">
+                <table class="table table-borderless">
+                  <thead>
+                      <tr>
+                          <th class="s-no" rowspan="2">S.No</th>  
+                          <th class="text-center" colspan=2>Date (MM/YY)</th>
+                          <th class="month-year" rowspan="2">Total Months / Year of Experience</th>
+                          <th rowspan="2">Designation</th>
+                          <th rowspan="2">Name of the Organization</th>
+                          <th rowspan="2">Place</th>
+                          <th rowspan="2">Reason for Leaving</th>
+                          <th rowspan="2"></th>
+                         </tr>
+                         <tr>
+                          <th class="text-center">From</th>
+                          <th class="text-center">To</th>  
+                         </tr>
+                  </thead>
+                  <tbody formArrayName="experienceDetails"
+                  *ngFor="let experience of experienceDetails['controls']; let i = index">
+                    <tr [formGroupName]="i">
+                      <td>{{i+1}}</td>
+                      <td class="text-center month-year"><input type="text" readonly class="form-control" bsDatepicker  [bsConfig]="{dateInputFormat: 'MM/YYYY', containerClass:'theme-dark-blue'}" (onShown)="onOpenCalendar($event)"formControlName="fromDate"></td>
+                      <td class="text-center month-year"><input type="text" readonly class="form-control" bsDatepicker  [bsConfig]="{dateInputFormat: 'MM/YYYY', containerClass:'theme-dark-blue'}" (onShown)="onOpenCalendar($event)" formControlName="toDate"></td>
+                      <td class="month-year"><input type="text" class="form-control" formControlName="totalExperience"></td>
+                      <td><input type="text" class="form-control" formControlName="designation"></td>
+                      <td><input type="text" class="form-control" formControlName="organization"></td>
+                      <td><input type="text" class="form-control" formControlName="place"></td>
+                      <td><input type="text" class="form-control" formControlName="leavingReason"></td>                                        
+                      <td> 
+                        <button class="btn btn-sm btn-danger btn-sm" (click)="onRemoveWorkExperience(i)" ><i class="fa fa-close"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>                                
+              </div>                          
+          <div class="row">
+            <div class="col-sm-12">
+                <button mat-button matStepperPrevious class="but-primary">Back</button>
+                <button mat-button matStepperNext class="but-primary">Next</button>
+            </div>                            
+          </div>
+        </form>
+      </mat-step>
+
+    <mat-step>
+      <form [formGroup]="Final">
+      <ng-template matStepLabel>Final</ng-template>
+      <div class="row tb-row">
+        <h5>Details of Remuneration received during previous employment ?</h5>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label for="">Take Home Salary</label>
+            <input type="text" name="" id="" class="form-control" formControlName="salary" >
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="">Deduction ( Specify )</label>
+           <textarea class="form-control" name="" id="" cols="30" rows="1" formControlName="deductions"></textarea>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label for="">CTC per Month</label>
+            <input type="text" name="" id="" class="form-control" formControlName="monthly_ctc">
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="form-group">
+            <label for="">CTC per Year</label>
+            <input type="text" name="" id="" class="form-control" formControlName="yearly_ctc">
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="">Others</label>
+            <input type="text" name="" id="" class="form-control" formControlName="others">
+          </div>
+        </div>
+      </div>
+      
+        <div class="row tb-row">
+          <div class="col-sm-12 tb-row">
+            <label for="">Details of responsibilities of present and previous job ?                                
+            </label><textarea name="" id="" cols="30" rows="1" class="form-control" formControlName="responsibilities"></textarea>
+          </div>
+          <div class="col-sm-12 tb-row">
+            <label for="">Professional achievements during employment:</label>
+            <textarea name="" id="" cols="30" rows="1" class="form-control" formControlName="achievements"></textarea>
+          </div>
+          <div class="col-sm-12 tb-row">
+            <label for="">Future ambition Career plan</label>
+            <textarea name="" id="" cols="30" rows="1" class="form-control" formControlName="ambition"></textarea>
+          </div>
+        </div>
+        <div class="row tb-row">
+          <div class="col-sm-6">
+              <label for="">Do you hold a Passport: </label>                           
+              <label class="radio-inline ml-2"> <input type="radio" (click)="openpassport()" name="passport" value="yes" > Yes </label>
+              <label class="radio-inline"> <input type="radio" (click)="closepassport()" name="passport" value="no" > No </label>                              
+              <!-- <span class="help-block" *ngIf="factSheetFormError.maritalStatus">
+                  {{factSheetFormError.maritalStatus}}
+              </span>   -->
+          </div>
+        </div>
+        <div class="row tb-row" *ngIf="isShownPass">
+          <div class="col-sm-4">
+              <div class="form-group"
+              [ngClass]="" >
+                <label for="">Passport Number: </label>                           
+                <input type="text" formControlName="passport" 
+                class="form-control" formControlName="passport">                 
+            </div>
+          </div>
+          </div>
+        <div class="row tb-row">
+            <button class="but-primary" mat-button matStepperPrevious>Back</button>
+            <button class="but-primary" mat-button >Save</button>
+            <button type="submit" (click)="onSubmit()" class="but-primary" mat-button >Submit</button>
+            <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+        </div>                          
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>  

@@ -1,0 +1,90 @@
+<div class="hold-transition login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <!-- <a routerLink="/"><b>CG-VAK | </b>On Boarding</a> -->
+      <img src="assets/img/cg-logo-01.png"/>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <!-- <div class="alert alert-danger alert-dismissible error_message" hidden>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-hidden="true"
+        >
+          ×
+        </button>
+        Invalid Username and/or password
+      </div> -->
+      <div>
+        <mk-alert
+          class="error_message"
+          *ngIf="isError"
+          [callout]="true"
+          backgroundColor="danger"
+        >
+          <h5>
+            <i class="icon fa fa-ban"></i>
+            Invalid Username and/or password
+          </h5>
+        </mk-alert>
+      </div>
+      <p class="login-box-msg">Sign in</p>
+
+      <form [formGroup]="userDetails">
+        <div
+          class="form-group has-feedback"
+          [ngClass]="{ 'has-error': userName.errors && userName.touched }"
+        >
+        <label>Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="userName"
+            placeholder="User name"
+          />
+          <!-- <span
+            class="glyphicon glyphicon-envelope form-control-feedback"
+          ></span> -->
+          <span class="help-block" *ngIf="userName.errors && userName.touched">
+            <span *ngIf="userName.errors.required"
+              >The user name is required</span
+            >
+          </span>
+        </div>
+        <div
+          class="form-group has-feedback"
+          [ngClass]="{ 'has-error': password.errors && password.touched }"
+        >
+        <label>Password</label>
+          <input
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Password"
+          />
+          <!-- <span class="glyphicon glyphicon-lock form-control-feedback"></span> -->
+          <span class="help-block" *ngIf="password.errors && password.touched">
+            <span *ngIf="password.errors.required">Password is required</span>
+          </span>
+        </div>
+        <div class="row">
+          <!-- /.col -->
+          <div class="col-md-12">
+            <button
+              type="submit"
+              [disabled]="!userDetails.valid"
+              class="btn btn-primary btn-block btn-flat login-btn"
+              (click)="login()"
+            >
+              Sign In
+            </button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+    </div>
+    <!-- /.login-box-body -->
+  </div>
+</div>

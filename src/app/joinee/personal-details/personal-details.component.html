@@ -1,0 +1,232 @@
+<mat-vertical-stepper  #stepper> 
+    <mat-step [stepControl]="personalDetail">
+        <form [formGroup]="personalDetail">
+            <ng-template matStepLabel>Personal Details</ng-template>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group"
+                    [ngClass]="{'has-error': positionAppliedField.errors && positionAppliedField.touched}" >
+                    <label for="positionApplied">Position Applied For:</label>                        
+                    <input type="text" formControlName="positionApplied" 
+                    class="form-control" id="positionApplied"                    
+                    placeholder="Position Applied For">  
+                    <span class="help-block" *ngIf="positionAppliedField.errors && positionAppliedField.touched">
+                        <span *ngIf="positionAppliedField.errors.required">Position Applied is required</span>
+                        <span *ngIf="positionAppliedField.errors.minlength">Position Applied  should contain at least {{ positionAppliedField.errors.minlength.requiredLength}} characters</span>
+                        <span *ngIf="positionAppliedField.errors.maxlength">Please enter no more than {{ positionAppliedField.errors.maxlength.requiredLength }}  characters.</span>
+                    </span>                      
+                    </div>  
+                </div>
+                
+            </div>
+            <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group"
+                          [ngClass]="{'has-error': nameField.errors && nameField.touched}" >
+                            <label for="name">Name:</label>                           
+                            <input type="text" formControlName="name" id="name"
+                            class="form-control"                              
+                           >   
+                           <span class="help-block" *ngIf="nameField.errors && nameField.touched">
+                                <span *ngIf="nameField.errors.required">Nameis required</span>
+                                <span *ngIf="nameField.errors.minlength">Name should contain at least {{ nameField.errors.minlength.requiredLength}} characters</span>
+                                <span *ngIf="nameField.errors.maxlength">Please enter no more than {{ nameField.errors.maxlength.requiredLength }}  characters.</span>
+                            </span>                          
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group"
+                        [ngClass]="{'has-error': qualificationField.errors && qualificationField.touched}" >
+                          <label for="qualification">Qualification:</label>                           
+                          <input type="text" formControlName="qualification"  id="qualification"
+                          class="form-control"                           
+                         >   
+                         <span class="help-block" *ngIf="qualificationField.errors && qualificationField.touched">
+                                <span *ngIf="qualificationField.errors.required">Qualification is required</span>
+                                <span *ngIf="qualificationField.errors.minlength">Qualification  should contain at least {{ qualificationField.errors.minlength.requiredLength}} characters</span>
+                                <span *ngIf="qualificationField.errors.maxlength">Please enter no more than {{ qualificationField.errors.maxlength.requiredLength }}  characters.</span>
+                            </span>                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-sm-3">
+                          <div class="form-group"
+                              [ngClass]="{'has-error': dateField.errors && dateField.touched}" >
+                                <label for="date">Date:</label>                           
+                                <input type="text" readonly bsDatepicker formControlName="date" id="date"
+                                class="form-control"                              
+                               >   
+                               <span class="help-block" *ngIf="dateField.errors && dateField.touched">
+                                    <span *ngIf="dateField.errors.required">Date is required</span>                                    
+                                </span>                          
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group"
+                            [ngClass]="{'has-error': venueField.errors && venueField.touched}" >                            
+                              <label for="venue">Venue:</label>                           
+                              <input type="text" formControlName="venue"  id="venue"
+                              class="form-control"                           
+                             >   
+                             <span class="help-block" *ngIf="venueField.errors && venueField.touched">
+                                    <span *ngIf="venueField.errors.required">Venue is required</span>
+                                    <span *ngIf="venueField.errors.minlength">Venue  should contain at least {{ venueField.errors.minlength.requiredLength}} characters</span>
+                                    <span *ngIf="venueField.errors.maxlength">Venue enter no more than {{ venueField.errors.maxlength.requiredLength }}  characters.</span>
+                                </span>                        
+                          </div>
+                        </div>
+                        <div class="col-sm-5">
+                                <div class="form-group"
+                                [ngClass]="{'has-error': callTimeField.errors && callTimeField.touched}" >                            
+                                <label class="control-label col-sm-3 call-time-label" style="margin-top: 30px" for="pwd">Call Time:</label>
+                                <div class="col-sm-9">                                                           
+                                 <timepicker [formControlName]="'callTime'"></timepicker>
+                                 <span class="help-block" *ngIf="callTimeField.errors && callTimeField.touched">
+                                        <span *ngIf="callTimeField.errors.required">Venue is required</span>
+                                      
+                                    </span>   
+                                    </div>                     
+                              </div>
+                            </div>
+                  </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group"
+                            [ngClass]="{'has-error': companyField.errors && companyField.touched}" >
+                            <label for="company">Company:</label>                           
+                            <input type="text" formControlName="company" id="company"
+                            class="form-control"                              
+                            >   
+                            <span class="help-block" *ngIf="companyField.errors && companyField.touched">
+                                <span *ngIf="companyField.errors.required">Company is  required</span>
+                                <span *ngIf="companyField.errors.minlength">Company should contain at least {{ nameField.errors.minlength.requiredLength}} characters</span>
+                                <span *ngIf="companyField.errors.maxlength">Please enter no more than {{ nameField.errors.maxlength.requiredLength }}  characters.</span>
+                            </span>                          
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group"
+                        [ngClass]="{'has-error': experienceField.errors && experienceField.touched}" >
+                            <label for="experience">Experience:</label>                           
+                            <input type="text" formControlName="experience"  id="experience"
+                            class="form-control"                           
+                            >   
+                            <span class="help-block" *ngIf="experienceField.errors && experienceField.touched">
+                                <span *ngIf="experienceField.errors.required">Experience is required</span>
+                                <span *ngIf="experienceField.errors.minlength">Experience  should contain at least {{ qualificationField.errors.minlength.requiredLength}} characters</span>                            
+                            </span>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group"
+                                [ngClass]="{'has-error': remarkOfTheCompanyField.errors && remarkOfTheCompanyField.touched}" >
+                                <label for="remarkOfTheCompany">Remark of the company:</label>                           
+                                <input type="text" formControlName="remarkOfTheCompany" id="remarkOfTheCompany"
+                                class="form-control"                              
+                                >   
+                                <span class="help-block" *ngIf="remarkOfTheCompanyField.errors && remarkOfTheCompanyField.touched">
+                                    <span *ngIf="remarkOfTheCompanyField.errors.required">Remark is  required</span>
+                                    <span *ngIf="remarkOfTheCompanyField.errors.minlength">Remark should contain at least {{ nameField.errors.minlength.requiredLength}} characters</span>
+                                    <span *ngIf="remarkOfTheCompanyField.errors.maxlength">Please enter no more than {{ nameField.errors.maxlength.requiredLength }}  characters.</span>
+                                </span>                          
+                            </div>
+                        </div>                        
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">                             
+                        <button mat-button matStepperNext class="but-primary" >Next</button>
+                    </div>                      
+                </div>     
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="factors">
+        <form [formGroup]="factors">
+        <ng-template matStepLabel>Rating (Tick the appropriate column with respect to the factors)</ng-template>
+        <div class="row tb-row">
+            <div class="col-sm-12">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>FACTORS</th>
+                            <th>Excellent(5)</th>
+                            <th>V Good (4)</th>
+                            <th>Good (3)</th>
+                            <th>Average (2)</th>
+                            <th>B Average (1)</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Education(25)</td>                            
+                            <td><p>80 & Above</p></td>
+                            <td><p>66-80</p></td>
+                            <td><p>56-65</p></td>
+                            <td><p>41-55</p></td>
+                            <td><p>40&Below</p></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Marks (10)</td>
+                            <td><label class="radio-inline"><input type="radio" name="marks" value="10" formControlName="marks" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="marks" value="8" formControlName="marks" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="marks" value="6" formControlName="marks" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="marks" value="4" formControlName="marks" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="marks" value="2" formControlName="marks" > (2) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Degree (10)</td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="10" formControlName="degree" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="8" formControlName="degree" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="6" formControlName="degree" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="4" formControlName="degree" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="degree" value="2" formControlName="degree" > (2) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>Total</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6">Communication (15)</td>                                                        
+                        </tr>
+                        <tr>
+                            <td>Marks (10)</td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="10" formControlName="fluency" > (10) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="8" formControlName="fluency" > (8) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="6" formControlName="fluency" > (6) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="4" formControlName="fluency" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="fluency" value="2" formControlName="fluency" > (2) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Degree (5)</td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="10" formControlName="expression" > (5) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="8" formControlName="expression" > (4) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="6" formControlName="expression" > (3) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="4" formControlName="expression" > (2) </label></td>
+                            <td><label class="radio-inline"><input type="radio" name="expression" value="2" formControlName="expression" > (1) </label></td>                            
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"></td>
+                            <td>Total</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row tb-row">
+                <div class="col-sm-12">                             
+                    <button mat-button matStepperNext class="but-primary" >Next</button>
+                </div>                      
+            </div>  
+        </form>
+    </mat-step>
+</mat-vertical-stepper>

@@ -1,0 +1,13 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+.edit-btn
+{
+    margin-right: 10px;
+}
+.btn-azure{
+    background: #41e5c0;
+    color: #fff;;
+}

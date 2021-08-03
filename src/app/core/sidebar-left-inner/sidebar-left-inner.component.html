@@ -1,0 +1,20 @@
+<div class="user-panel">
+  <div class="pull-left image">
+    <img src="assets/img/Profile-PNG-Icon.png" class="img-circle" alt="User Image">
+  </div>
+  <div class="pull-left info">
+    <p>{{profileName}}</p>
+    <!-- <a href=""> -->
+      <i class="fa fa-circle text-success"></i> 
+    {{profileStatus}}
+  <!-- </a> -->
+  </div>
+</div>
+<ul routerLinkActive="active" *ngFor = "let data of menu" class="sidebar-menu" id="side_menu">
+  <li>
+    <a  [routerLink]="[data.route]">
+        <i class="{{data.iconClasses}}"></i>
+        <span>{{data.label}}</span>
+    </a>
+</li>
+</ul>

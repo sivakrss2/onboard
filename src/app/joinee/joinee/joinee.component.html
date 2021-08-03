@@ -1,0 +1,28 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="joinee-screen-wrapper">
+        <div class="joineecreen-logo">
+          <img src="assets/img/logo-blue.png" class="user-image" alt="Logo">
+          <!-- <a><b>CG-VAK</b></a> -->
+        </div>          
+            <div class="row">
+              <div class="col-xs-12">
+                <mk-tabs tabsColor="#3c763d" class="nav-justified" [activeTabIndex]="0">
+                  <mk-tab header="Fact Sheet" tabColor="#dd4b39">
+                    <app-fact-sheet></app-fact-sheet>                       
+                  </mk-tab>
+                  <mk-tab tabColor="#F5D601"header="Personal Details">
+                    <app-personal-details></app-personal-details>
+                  </mk-tab>  
+                  <mk-tab header="ID Card">
+                      <app-id-card></app-id-card>
+                  </mk-tab>         
+                </mk-tabs>
+              </div>	
+            </div>        
+    </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+.radioBtn input {
+    margin: 15px 0px 0px 0px;
+  }
+  .radioBtn label {
+    margin: 0px 20px 0px 3px;
+  }
+  .submit-button {
+    margin-right: 10px;
+  }
+  input.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+  textarea.ng-invalid.ng-touched {
+    border: 1px solid red;
+  }
+  .form-error-text {
+    color: red;
+  }
+  .skin-blue .main-header .navbar{
+    background: linear-gradient(154deg,#008fe2 0,#00b29c 100%);
+  }

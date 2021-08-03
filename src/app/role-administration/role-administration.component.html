@@ -1,0 +1,38 @@
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-inline-block">
+                <h3 class="card-title"><i class="fa fa-list"></i>&nbsp; Admin Roles &amp; Permissions</h3>
+            </div>
+            <div class="d-inline-block float-right">
+                <button class="btn btn-success" (click)="onAddRole()"><i class="fa fa-plus"></i> Add New Role</button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th width="200">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of roles">
+                    <td>{{ data.name }}</td>
+                    <td>
+                        <button
+                        *ngIf="data.name != 'admin'"
+                        type="button"
+                        class="btn btn-warning btn-xs mr5 edit"
+                        (click)="RoleEdit(data)"
+                        >
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+</section>
